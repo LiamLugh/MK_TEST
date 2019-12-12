@@ -18,5 +18,6 @@ public class MapManager : MonoBehaviour
         random.Init();
         mapBuffer.Init();
         tileSpawner.SpawnChunk(mapBuffer.GetMapData(), mapBuffer.GetWidth(), mapBuffer.GetHeight());
+        colliderSpawner.SpawnColliders(mapBuffer.GetColliderQueue());
     }
 }

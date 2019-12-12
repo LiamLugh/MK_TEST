@@ -19,6 +19,7 @@ public class MapBuffer : MonoBehaviour
     Vector2Int currentTarget = Vector2Int.zero;
     byte startRampSize = 5;
     byte minHeight = 1;
+    byte heightOffset = 2;
 
     // Colliders
     ColliderData currentCollider;
@@ -52,11 +53,31 @@ public class MapBuffer : MonoBehaviour
             colourCount++;
         }
 
+        // Add start ramp collider
+        currentCollider.isWhite = isWhite;
+        currentCollider.position = new Vector2((startRampSize * 0.5f) - 0.5f, minHeight);
+        currentCollider.size = startRampSize;
+        EnqueueCurrentCollider();
+
         currentTarget.Set(startRampSize, minHeight);
 
         for (int i = startRampSize; i < width; i++)
         {
-            int newY = random.GetRandomInt(minHeight, currentTarget.y + 1);
+            // Generate new height
+            int newY = random.GetRandomInt(minHeight, currentTarget.y + heightOffset);
+
+            // Update current collider
+            if(newY != currentTarget.y)
+            {
+                currentCollider.position = currentTarget;
+                EnqueueCurrentCollider();
+            }
+            else
+            {
+                currentCollider.size++;
+            }
+
+            // Update current target
             currentTarget.y = newY;
 
             // Work out wether it should be black or white
@@ -65,6 +86,7 @@ public class MapBuffer : MonoBehaviour
             if(dice < colourCount)
             {
                 isWhite = !isWhite;
+                EnqueueCurrentCollider();
             }
 
             if(isWhite)
@@ -84,17 +106,19 @@ public class MapBuffer : MonoBehaviour
 
     void EnqueueCurrentCollider()
     {
-        currentCollider.isWhite = isWhite;
-        currentCollider.position = new Vector2(currentTarget.x - (colourCount * 0.5f), currentTarget.y);
-        currentCollider.size = colourCount;
-
         colliderQueue.Enqueue(currentCollider);
         currentCollider = new ColliderData();
+        currentCollider.size = 1;
     }
 
-    public ColliderData GetCollider()
+    public Queue<ColliderData> GetColliderQueue()
     {
-        return colliderQueue.Dequeue();
+        return colliderQueue;
+    }
+
+    public int GetColliderCount()
+    {
+        return colliderQueue.Count;
     }
 
     // GETTERS

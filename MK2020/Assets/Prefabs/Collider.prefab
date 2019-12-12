@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 65468724211011653}
   - component: {fileID: 65468724211011652}
   - component: {fileID: 65468724211011651}
+  - component: {fileID: 3437193501989492179}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 65468724211011654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 1, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,3 +80,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3437193501989492179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65468724211011654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186dce04fde43094d9edd8de75437b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 65468724211011652}

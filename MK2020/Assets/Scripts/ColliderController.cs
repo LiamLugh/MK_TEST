@@ -10,11 +10,11 @@ public class ColliderController : MonoBehaviour
 
     public void Enable(ColliderData cd)
     {
+        gameObject.SetActive(true);
+
         isWhite = cd.isWhite;
         gameObject.transform.position = cd.position;
         collider.size.Set(cd.size, 1.0f);
-
-        gameObject.SetActive(true);
     }
 
     public void Disable()
