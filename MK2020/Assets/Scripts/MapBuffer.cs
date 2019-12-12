@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapBuffer : MonoBehaviour
 {
-    public GameObject pfb;
     [SerializeField]
     byte[,] mapData;
     [SerializeField]
@@ -21,15 +20,15 @@ public class MapBuffer : MonoBehaviour
         height = (byte)Mathf.CeilToInt(heightf);
 
         mapData = new byte[width, height];
+    }
 
-        for(int x = 0; x < width; x++)
-        {
-            Instantiate(pfb, new Vector2(x, height), Quaternion.identity, transform);
-        }
+    public byte GetWidth()
+    {
+        return width;
+    }
 
-        for (int y = 0; y < height; y++)
-        {
-            Instantiate(pfb, new Vector2(width, y), Quaternion.identity, transform);
-        }
+    public byte GetHeight()
+    {
+        return height;
     }
 }
