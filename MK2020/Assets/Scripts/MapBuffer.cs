@@ -8,32 +8,42 @@ public class MapBuffer : MonoBehaviour
     RandomSystem random = null;
     [SerializeField]
     byte[,] mapData = null;
+    byte[,] currentSlice = null;
     [SerializeField]
     byte width = 0;
     [SerializeField]
     byte height = 0;
 
     // Map configuration
+    byte bufferLead = 5;
     Vector2Int currentTarget = Vector2Int.zero;
     byte startRampSize = 5;
     byte minHeight = 1;
 
+    // Colliders
+    ColliderData currentCollider;
+    Queue<ColliderData> colliderQueue = null;
+
     // ColourData
     bool isWhite = true;
-    ushort colourCount = 0;
+    byte colourCount = 0;
 
     void Awake()
     {
         float heightf = Camera.main.orthographicSize * 2.0f;
         float widthf = heightf * Camera.main.aspect;
 
-        width = (byte)(Mathf.CeilToInt(widthf) * 2);
+        width = (byte)(Mathf.CeilToInt(widthf) + bufferLead);
         height = (byte)Mathf.CeilToInt(heightf);
 
         mapData = new byte[width, height];
+        currentSlice = new byte[1, height];
+
+        currentCollider = new ColliderData();
+        colliderQueue = new Queue<ColliderData>();
     }
 
-    public void InitMap()
+    public void Init()
     {
         // Start ramp
         for(int i = 0; i < startRampSize; i++)
@@ -69,6 +79,25 @@ public class MapBuffer : MonoBehaviour
             colourCount++;
         }
     }
+
+    // Colliders
+
+    void EnqueueCurrentCollider()
+    {
+        currentCollider.isWhite = isWhite;
+        currentCollider.position = new Vector2(currentTarget.x - (colourCount * 0.5f), currentTarget.y);
+        currentCollider.size = colourCount;
+
+        colliderQueue.Enqueue(currentCollider);
+        currentCollider = new ColliderData();
+    }
+
+    public ColliderData GetCollider()
+    {
+        return colliderQueue.Dequeue();
+    }
+
+    // GETTERS
 
     public byte GetWidth()
     {

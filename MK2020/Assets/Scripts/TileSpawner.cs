@@ -26,9 +26,8 @@ public class TileSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnMap(byte[,] mapData, byte width, byte height)
+    public void SpawnChunk(byte[,] mapData, byte width, byte height)
     {
-        Debug.Log("THIS HAPPENED MAPDATA " + mapData.Length + " WIDTH " + width + " HEIGHT " + height);
         for(int x = 0; x < width; x++)
         {
             for(int y = 0; y < height; y++)
@@ -38,26 +37,25 @@ public class TileSpawner : MonoBehaviour
                 if(dataAtLocation > 0)
                 {
                     TileController tc = null;
+                    Vector2 position = new Vector2(x, y);
 
                     if (tilePool.Count > 0)
                     {
-                        Debug.Log("NOIPE");
                         tc = tilePool.Dequeue();
                     }
                     else
                     {
-                        Debug.Log("YES");
-                        GameObject newTile = Instantiate(PFB_floorTile, new Vector2(x, y), Quaternion.identity, transform);
+                        GameObject newTile = Instantiate(PFB_floorTile, position, Quaternion.identity, transform);
                         tc = newTile.GetComponent<TileController>();
                     }
 
                     switch (dataAtLocation)
                     {
                         case 1:
-                            tc.Enable(true);
+                            tc.Enable(true, position);
                             break;
                         case 2:
-                            tc.Enable(false);
+                            tc.Enable(false, position);
                             break;
                         default:
                             break;
