@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 315696452861339404}
+  - component: {fileID: 5341550399332661442}
   m_Layer: 0
   m_Name: FloorTile
   m_TagString: Untagged
@@ -31,6 +32,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5341550399332661442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577046984810732939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41fd65891be23a84e86a807b9607a27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mats:
+  - {fileID: 2100000, guid: 99241d0fa686fe64f8c1ce31742258d9, type: 2}
+  - {fileID: 2100000, guid: 6eb641b5b882fea49a5520eb06f22b7a, type: 2}
+  myRenderer: {fileID: 1597056851751264116}
+  type: 2
+  subType: 1
 --- !u!1 &4708727257640498459
 GameObject:
   m_ObjectHideFlags: 0

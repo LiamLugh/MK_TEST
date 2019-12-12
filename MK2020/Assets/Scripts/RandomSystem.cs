@@ -35,13 +35,13 @@ public class RandomSystem : MonoBehaviour
         return r.Next();
     }
 
-    public int GetRandomIntTo(int max)
+    public int GetRandomInt(int max)
     {
         tickCount++;
         return r.Next(max);
     }
 
-    public int GetRandomIntInRange(int min, int max)
+    public int GetRandomInt(int min, int max)
     {
         tickCount++;
         return r.Next(min, max);

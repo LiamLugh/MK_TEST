@@ -153,7 +153,6 @@ Transform:
   - {fileID: 1726194349}
   - {fileID: 1971000387}
   - {fileID: 631831074}
-  - {fileID: 607479147}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -172,7 +171,7 @@ MonoBehaviour:
   mapBuffer: {fileID: 1651603378}
   tileSpawner: {fileID: 1938262855}
   colliderSpawner: {fileID: 1971000388}
-  random: {fileID: 0}
+  random: {fileID: 607479148}
 --- !u!1 &489978738
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,12 +352,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607479146}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 365922996}
-  m_RootOrder: 5
+  m_Father: {fileID: 1651603377}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &607479148
 MonoBehaviour:
@@ -373,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
+  tickCount: 0
 --- !u!4 &631831074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 65468724211011653, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b,
@@ -1006,7 +1006,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 607479147}
   m_Father: {fileID: 365922996}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1022,6 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8fec4990607e54b98d8d073d2d1f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  random: {fileID: 0}
   width: 0
   height: 0
 --- !u!1 &1726194348

@@ -6,6 +6,4 @@ public class ColliderSpawner : MonoBehaviour
 {
     [SerializeField]
     GameObject PFB_floorCollider;
-    [SerializeField]
-    RandomSystem random;
 }
