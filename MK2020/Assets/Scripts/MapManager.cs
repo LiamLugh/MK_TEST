@@ -10,9 +10,12 @@ public class MapManager : MonoBehaviour
     TileSpawner tileSpawner;
     [SerializeField]
     ColliderSpawner colliderSpawner;
+    [SerializeField]
+    RandomSystem random;
 
     void Start()
     {
+        random.Init();
         tileSpawner.SpawnTestZone(mapBuffer.GetWidth(), mapBuffer.GetHeight());
     }
 }

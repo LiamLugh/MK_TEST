@@ -5,6 +5,8 @@ using UnityEngine;
 public class MapBuffer : MonoBehaviour
 {
     [SerializeField]
+    RandomSystem random;
+    [SerializeField]
     byte[,] mapData;
     [SerializeField]
     byte width = 0;

@@ -6,6 +6,8 @@ public class TileSpawner : MonoBehaviour
 {
     [SerializeField]
     GameObject PFB_floorTile;
+    [SerializeField]
+    RandomSystem random;
 
     void Start()
     {
