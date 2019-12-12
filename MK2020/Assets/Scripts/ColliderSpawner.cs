@@ -31,6 +31,7 @@ public class ColliderSpawner : MonoBehaviour
                 cc = newCollider.GetComponent<ColliderController>();
             }
 
+            Debug.Log("POSITION: (" + cd.position.x + "," + cd.position.y + ") - SIZE: " + cd.size + " - TYPE " + ((cd.isWhite) ? "WHITE" : "BLACK"));
             cc.Enable(cd);
         }
     }

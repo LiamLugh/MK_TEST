@@ -17,7 +17,7 @@ public class MapBuffer : MonoBehaviour
     // Map configuration
     byte bufferLead = 5;
     Vector2Int currentTarget = Vector2Int.zero;
-    byte startRampSize = 5;
+    byte startRampSize = 10;
     byte minHeight = 1;
     byte heightOffset = 2;
 

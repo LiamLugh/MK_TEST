@@ -7,24 +7,23 @@ public class RandomSystem : MonoBehaviour
 {
     System.Random r;
     [SerializeField]
-    int seed = 0;
+    string seed = "";
     [SerializeField]
     uint tickCount = 0;
     List<uint> tickLog;
 
-    public void Init(int seed = 0)
+    public void Init(string seed = "")
     {
-        if(seed != 0)
+        if(seed == "")
         {
-            r = new System.Random(seed);
-            this.seed = seed;
+            this.seed = Time.time.ToString();
         }
         else
         {
-            r = new System.Random();
-            this.seed = r.Next();
-            r = new System.Random(seed);
+            this.seed = seed;
         }
+
+        r = new System.Random(seed.GetHashCode());
 
         tickLog = new List<uint>();
     }
