@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8fec4990607e54b98d8d073d2d1f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  random: {fileID: 0}
+  random: {fileID: 607479148}
   width: 0
   height: 0
 --- !u!1 &1726194348
@@ -1144,7 +1144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8359021a3fb184a4db91b542abcee139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PFB_floorCollider: {fileID: 0}
+  PFB_floorCollider: {fileID: 65468724211011654, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b,
+    type: 3}
 --- !u!1001 &65468723763751527
 PrefabInstance:
   m_ObjectHideFlags: 0

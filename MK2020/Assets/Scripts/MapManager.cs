@@ -5,17 +5,18 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     [SerializeField]
-    MapBuffer mapBuffer;
+    MapBuffer mapBuffer = null;
     [SerializeField]
-    TileSpawner tileSpawner;
+    TileSpawner tileSpawner = null;
     [SerializeField]
-    ColliderSpawner colliderSpawner;
+    ColliderSpawner colliderSpawner = null;
     [SerializeField]
-    RandomSystem random;
+    RandomSystem random = null;
 
     void Start()
     {
         random.Init();
-        tileSpawner.SpawnTestZone(mapBuffer.GetWidth(), mapBuffer.GetHeight());
+        mapBuffer.InitMap();
+        tileSpawner.SpawnMap(mapBuffer.GetMapData(), mapBuffer.GetWidth(), mapBuffer.GetHeight());
     }
 }

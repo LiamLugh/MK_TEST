@@ -5,14 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    Rigidbody2D rb;
+    Rigidbody2D rb = null;
     [SerializeField]
-    Renderer myRenderer;
+    Renderer myRenderer = null;
     [SerializeField]
-    Renderer[] childRenderers;
+    Renderer[] childRenderers = null;
     int childrenCount = 0;
     [SerializeField]
-    Material[] mats;
+    Material[] mats = null;
     bool isWhiteMode = true;
     float halfScreenWidth = 0.0f;
     bool isPaused = false;
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     float powerMultiplier = 5.0f;
     Vector2 jumpVector = Vector2.zero;
     [SerializeField]
-    FloorCollider floorCollider;
+    FloorCollider floorCollider = null;
 
     void Start()
     {

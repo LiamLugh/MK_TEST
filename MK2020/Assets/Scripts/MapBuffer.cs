@@ -5,9 +5,9 @@ using UnityEngine;
 public class MapBuffer : MonoBehaviour
 {
     [SerializeField]
-    RandomSystem random;
+    RandomSystem random = null;
     [SerializeField]
-    byte[,] mapData;
+    byte[,] mapData = null;
     [SerializeField]
     byte width = 0;
     [SerializeField]
@@ -22,7 +22,7 @@ public class MapBuffer : MonoBehaviour
     bool isWhite = true;
     ushort colourCount = 0;
 
-    void Start()
+    void Awake()
     {
         float heightf = Camera.main.orthographicSize * 2.0f;
         float widthf = heightf * Camera.main.aspect;

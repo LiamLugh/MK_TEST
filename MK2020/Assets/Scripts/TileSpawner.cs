@@ -5,10 +5,10 @@ using UnityEngine;
 public class TileSpawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject PFB_floorTile;
+    GameObject PFB_floorTile = null;
     Queue<TileController> tilePool;
 
-    void Start()
+    void Awake()
     {
         tilePool = new Queue<TileController>();
     }
@@ -28,6 +28,7 @@ public class TileSpawner : MonoBehaviour
 
     public void SpawnMap(byte[,] mapData, byte width, byte height)
     {
+        Debug.Log("THIS HAPPENED MAPDATA " + mapData.Length + " WIDTH " + width + " HEIGHT " + height);
         for(int x = 0; x < width; x++)
         {
             for(int y = 0; y < height; y++)
@@ -40,10 +41,12 @@ public class TileSpawner : MonoBehaviour
 
                     if (tilePool.Count > 0)
                     {
+                        Debug.Log("NOIPE");
                         tc = tilePool.Dequeue();
                     }
                     else
                     {
+                        Debug.Log("YES");
                         GameObject newTile = Instantiate(PFB_floorTile, new Vector2(x, y), Quaternion.identity, transform);
                         tc = newTile.GetComponent<TileController>();
                     }

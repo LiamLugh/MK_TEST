@@ -8,9 +8,9 @@ public enum TILESUBTYPE { BOUNCE, NONE };
 public class TileController : MonoBehaviour
 {
     [SerializeField]
-    Material[] mats;
+    Material[] mats = null;
     [SerializeField]
-    Renderer myRenderer;
+    Renderer myRenderer = null;
     [SerializeField]
     TILETYPE type = TILETYPE.NONE;
     [SerializeField]
@@ -21,10 +21,12 @@ public class TileController : MonoBehaviour
         if(isWhite)
         {
             myRenderer.material = mats[0];
+            type = TILETYPE.WHITE;
         }
         else
         {
             myRenderer.material = mats[1];
+            type = TILETYPE.BLACK;
         }
         gameObject.SetActive(true);
     }
