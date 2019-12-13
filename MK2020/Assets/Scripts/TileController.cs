@@ -9,7 +9,7 @@ public class TileController : MonoBehaviour
     [SerializeField]
     Renderer myRenderer = null;
 
-    public void Enable(bool isWhite, Vector2 position)
+    public void Enable(Vector2 position, bool isWhite)
     {
         if(isWhite)
         {

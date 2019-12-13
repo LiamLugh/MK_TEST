@@ -27,7 +27,7 @@ public class MapController : MonoBehaviour
 
     // Chunk spawn config
     bool isWhite = true;
-    byte colourCount = 0;
+    byte sinceColorChangeCount = 0;
 
     // Map Data
     ChunkData mapChunk;
@@ -35,6 +35,11 @@ public class MapController : MonoBehaviour
     ChunkController[] chunkTransforms;
     byte chunkIndex = 0;
     byte activeChunkCount = 0;
+    byte heightChangeChance = 75;
+    byte gapChance = 75;
+    byte minGapSize = 3;
+    byte maxGapSize = 7;
+    byte minPlatformLength = 1;
 
     // Chunk movement
     bool canPoolChunks = false;
@@ -102,7 +107,58 @@ public class MapController : MonoBehaviour
         // Loop over the positions of the chunk
         for (int i = 0; i < chunkWidth; i++)
         {
+            byte x = (byte)currentTarget.x;
+            byte y = (byte)currentTarget.y;
+
             /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
+            
+            // Roll for gap chance
+            if (random.GetRandomInt(100) < gapChance)
+            {
+                // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
+                byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - y) ? maxGapSize : chunkWidth - y);
+            }
+            else
+            {
+                // Rool for heightChange
+                if (random.GetRandomInt(100) < heightChangeChance)
+                {
+                    y = (byte)random.GetRandomInt(y - 1, y + 2);
+
+                    if(y < minHeight)
+                    {
+                        y = minHeight;
+                    }
+                    else if(y > maxHeight)
+                    {
+                        y = maxHeight;
+                    }
+                }
+
+                currentTarget.Set(x, y);
+
+                // Generate new platform data
+                byte maxLength = (byte)random.GetRandomInt(chunkWidth - currentTarget.x);
+                currentPlatformLength = (byte)random.GetRandomInt(minPlatformLength, maxLength);
+                // Update tracking vars
+                currentChunkTileCount += currentPlatformLength;
+                sinceColorChangeCount += currentPlatformLength;
+
+                // Add Collider for platform, then add it to this chunks list of colliders
+                ColliderController c = colliderPool.GetObjectFromPool();
+                ColliderData cd = new ColliderData(ColliderType.FLOOR, isWhite, currentPlatformLength);
+                c.Enable(currentTarget, cd);
+                colliders.Add(c);
+
+                // Add tiles
+                for (int j = 0; j < currentPlatformLength; j++)
+                {
+                    TileController t = tilePool.GetObjectFromPool();
+                }
+
+                // Roll to change colour
+            }
+
             // Get new height
             //byte newHeightTarget = random.GetRandomInt(currentTarget.y)
             //// Leave a gap?
