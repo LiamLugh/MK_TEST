@@ -9,9 +9,14 @@ public class TileController : MonoBehaviour
     [SerializeField]
     Renderer myRenderer = null;
 
-    public void Enable(Vector2 position, bool isWhite)
+    public void Enable(Transform parentTransform, Vector2 position, bool isWhite)
     {
-        if(isWhite)
+        gameObject.SetActive(true);
+
+        transform.SetParent(parentTransform);
+        gameObject.transform.localPosition = position;
+        
+        if (isWhite)
         {
             myRenderer.material = mats[0];
         }
@@ -19,8 +24,6 @@ public class TileController : MonoBehaviour
         {
             myRenderer.material = mats[1];
         }
-        gameObject.transform.localPosition = position;
-        gameObject.SetActive(true);
     }
 
     public void Disable()

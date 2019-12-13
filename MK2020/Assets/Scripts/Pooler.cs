@@ -9,19 +9,16 @@ public class Pooler<T> : MonoBehaviour
     [SerializeField]
     protected T pfb;
 
-    void Start()
+    void Awake()
     {
         pool = new Queue<T>();
     }
 
-    protected virtual void CreateAndPoolObject()
-    {
-
-    }
+    protected virtual void CreateAndPoolObject() {}
 
     public T GetObjectFromPool()
     {
-        if(GetPoolCount() == 0)
+        if(pool.Count == 0)
         {
             CreateAndPoolObject();
         }
@@ -29,21 +26,16 @@ public class Pooler<T> : MonoBehaviour
         return pool.Dequeue();
     }
 
-    public void PoolObject(ref T obj)
+    public void PoolObject(T obj)
     {
         pool.Enqueue(obj);
     }
 
-    public void PoolObjectList(ref List<T> objList)
+    public void PoolObjectList(T[] objList)
     {
-        for(int i = 0; i < objList.Count; i++)
+        for(int i = 0; i < objList.Length; i++)
         {
             pool.Enqueue(objList[i]);
         }
-    }
-
-    public int GetPoolCount()
-    {
-        return pool.Count;
     }
 }

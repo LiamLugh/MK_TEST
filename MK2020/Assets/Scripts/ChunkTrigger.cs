@@ -12,8 +12,6 @@ public class ChunkTrigger : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.GetComponent<Player>()) return;
-
-        Debug.Log("SEND --- POOL THIS POOL");
         poolThisChunk?.Invoke(EventArgs.Empty);
     }
 }

@@ -19,10 +19,9 @@ public class MapController : MonoBehaviour
     // Chunk Plotting
     byte leadSpace = 0;
     Vector2Int currentTarget = Vector2Int.zero;
-    byte startRampSize = 10;
     byte rampHeightDelta = 3;
     byte minHeight = 1;
-    byte maxHeight = 6;
+    byte maxHeight = 3;
     byte heightOffset = 2;
 
     // Chunk spawn config
@@ -35,10 +34,10 @@ public class MapController : MonoBehaviour
     ChunkController[] chunkTransforms;
     byte chunkIndex = 0;
     byte activeChunkCount = 0;
-    byte heightChangeChance = 75;
-    byte gapChance = 75;
+    byte heightChangeChance = 25;
+    byte gapChance = 10;
     byte minGapSize = 3;
-    byte maxGapSize = 7;
+    byte maxGapSize = 5;
     byte minPlatformLength = 1;
 
     // Chunk movement
@@ -115,10 +114,12 @@ public class MapController : MonoBehaviour
             /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
 
             // Roll for gap chance
-            if (random.GetRandomInt(100) < gapChance)
+            if (random.GetRandomInt(100) < gapChance + currentChunkTileCount)
             {
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
                 byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - y) ? maxGapSize : chunkWidth - y);
+                // Skip loop forawrd by gap size
+                i += gapLength;
             }
             else
             {
@@ -135,9 +136,10 @@ public class MapController : MonoBehaviour
                     {
                         y = maxHeight;
                     }
-                }
 
-                currentTarget.Set(x, y);
+                    // Update position for new height
+                    currentTarget.Set(x, y);
+                }
 
                 // Generate new platform data
                 byte maxLength = (byte)random.GetRandomInt(chunkWidth - currentTarget.x);
@@ -146,6 +148,7 @@ public class MapController : MonoBehaviour
                     maxLength = (byte)(minPlatformLength + 1);
                 }
                 currentPlatformLength = (byte)random.GetRandomInt(minPlatformLength, maxLength);
+
                 // Update tracking vars
                 currentChunkTileCount += currentPlatformLength;
                 sinceColorChangeCount += currentPlatformLength;
@@ -153,20 +156,22 @@ public class MapController : MonoBehaviour
                 // Add Collider for platform, then add it to this chunks list of colliders
                 ColliderController c = colliderPool.GetObjectFromPool();
                 ColliderData cd = new ColliderData(ColliderType.FLOOR, isWhite, currentPlatformLength);
-                c.transform.SetParent(chunkTransforms[chunkIndex].transform);
-                c.Enable(currentTarget, cd);
+                c.Enable(chunkTransforms[chunkIndex].transform, currentTarget, cd);
                 colliders.Add(c);
 
                 // Add tiles
                 for (int j = 0; j < currentPlatformLength; j++)
                 {
                     TileController t = tilePool.GetObjectFromPool();
-                    t.transform.SetParent(chunkTransforms[chunkIndex].transform);
-                    t.Enable(new Vector2(currentTarget.x + j, currentTarget.y), isWhite);
+                    t.Enable(chunkTransforms[chunkIndex].transform, new Vector2(currentTarget.x + j, currentTarget.y), isWhite);
                     tiles.Add(t);
                 }
 
+                // Skip loop forward by platform length
+                i += currentPlatformLength;
+                // Update position with platform width
                 x += currentPlatformLength;
+                currentTarget.Set(x, y);
 
                 // Roll to change colour
                 if (random.GetRandomInt(100) < sinceColorChangeCount)
@@ -184,7 +189,6 @@ public class MapController : MonoBehaviour
 
     void UpdateChunkIndex()
     {
-        Debug.Log("====================");
         chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
     }
 
@@ -198,8 +202,20 @@ public class MapController : MonoBehaviour
             chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
 
             // Pool it's tiles and colliders
-            tilePool.PoolObjectList(ref chunkTransforms[chunkIndex].GetTiles());
-            colliderPool.PoolObjectList(ref chunkTransforms[chunkIndex].GetColliders());
+            TileController[] tControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<TileController>();
+            tilePool.PoolObjectList(tControllers);
+            for (int i = 0; i < tControllers.Length; i++)
+            {
+                tControllers[i].transform.SetParent(tilePool.transform);
+                tControllers[i].Disable();
+            }
+            ColliderController[] cControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<ColliderController>();
+            colliderPool.PoolObjectList(cControllers);
+            for (int i = 0; i < cControllers.Length; i++)
+            {
+                cControllers[i].transform.SetParent(colliderPool.transform);
+                cControllers[i].Disable();
+            }
 
             // Plot new chunk
             PlotChunk();

@@ -10,11 +10,12 @@ public class ColliderController : MonoBehaviour
     [SerializeField]
     ColliderType type = ColliderType.NONE;
 
-    public void Enable(Vector2 position, ColliderData cd)
+    public void Enable(Transform parentTransform, Vector2 position, ColliderData cd)
     {
         gameObject.SetActive(true);
 
-        gameObject.transform.position = position;
+        transform.SetParent(parentTransform);
+        gameObject.transform.localPosition = position;
 
         type = cd.type;
         isWhite = cd.isWhite;
