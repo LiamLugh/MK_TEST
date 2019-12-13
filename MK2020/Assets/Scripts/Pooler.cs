@@ -5,29 +5,28 @@ using UnityEngine;
 
 public class Pooler<T> : MonoBehaviour
 {
-    Queue<T> pool;
+    protected Queue<T> pool;
     [SerializeField]
-    T pfb;
+    protected T pfb;
 
     void Start()
     {
         pool = new Queue<T>();
     }
 
-    public T GetObjectFromPool()
+    protected virtual void CreateAndPoolObject()
     {
-        if(GetPoolCount() > 0)
-        {
-            return pool.Dequeue();
-        }
 
-        T newObj = Instantiate(pfb);
-        return newObj;
     }
 
-    private T Instantiate(T pfb)
+    public T GetObjectFromPool()
     {
-        throw new NotImplementedException();
+        if(GetPoolCount() == 0)
+        {
+            CreateAndPoolObject();
+        }
+
+        return pool.Dequeue();
     }
 
     public void PoolObject(ref T obj)

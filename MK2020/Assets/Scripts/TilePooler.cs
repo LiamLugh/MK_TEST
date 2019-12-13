@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class TilePooler : Pooler<TileController>
 {
-
+    protected override void CreateAndPoolObject()
+    {
+        TileController t = Instantiate(pfb);
+        pool.Enqueue(t);
+    }
 }

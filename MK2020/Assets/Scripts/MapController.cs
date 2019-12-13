@@ -30,7 +30,7 @@ public class MapController : MonoBehaviour
     byte sinceColorChangeCount = 0;
 
     // Map Data
-    ChunkData mapChunk;
+    ChunkData mapChunkData;
     [SerializeField]
     ChunkController[] chunkTransforms;
     byte chunkIndex = 0;
@@ -52,6 +52,9 @@ public class MapController : MonoBehaviour
 
     void Awake()
     {
+        // Initialise the random system
+        random.Init();
+
         // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;
         float widthf = heightf * Camera.main.aspect;
@@ -71,9 +74,8 @@ public class MapController : MonoBehaviour
         // Subscribe To events
         for (int i = 0; i < activeChunkCount; i++)
         {
-            // Build Chunks - added in here to reduce to save a loop
-            PlotChunk();
             chunkTriggers[i].poolThisChunk += OnChunkPoolEvent;
+            PlotChunk();    // Build Chunks - added in here to reduce to save a loop
         }
     }
 
@@ -104,14 +106,14 @@ public class MapController : MonoBehaviour
         byte currentChunkTileCount = 0;
         byte currentPlatformLength = 0;
 
-        // Loop over the positions of the chunk
+        // Loop over the horizontal positions of the chunk
         for (int i = 0; i < chunkWidth; i++)
         {
             byte x = (byte)currentTarget.x;
             byte y = (byte)currentTarget.y;
 
             /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
-            
+
             // Roll for gap chance
             if (random.GetRandomInt(100) < gapChance)
             {
@@ -125,11 +127,11 @@ public class MapController : MonoBehaviour
                 {
                     y = (byte)random.GetRandomInt(y - 1, y + 2);
 
-                    if(y < minHeight)
+                    if (y < minHeight)
                     {
                         y = minHeight;
                     }
-                    else if(y > maxHeight)
+                    else if (y > maxHeight)
                     {
                         y = maxHeight;
                     }
@@ -139,6 +141,10 @@ public class MapController : MonoBehaviour
 
                 // Generate new platform data
                 byte maxLength = (byte)random.GetRandomInt(chunkWidth - currentTarget.x);
+                if (maxLength <= minPlatformLength)
+                {
+                    maxLength = (byte)(minPlatformLength + 1);
+                }
                 currentPlatformLength = (byte)random.GetRandomInt(minPlatformLength, maxLength);
                 // Update tracking vars
                 currentChunkTileCount += currentPlatformLength;
@@ -147,6 +153,7 @@ public class MapController : MonoBehaviour
                 // Add Collider for platform, then add it to this chunks list of colliders
                 ColliderController c = colliderPool.GetObjectFromPool();
                 ColliderData cd = new ColliderData(ColliderType.FLOOR, isWhite, currentPlatformLength);
+                c.transform.SetParent(chunkTransforms[chunkIndex].transform);
                 c.Enable(currentTarget, cd);
                 colliders.Add(c);
 
@@ -154,18 +161,24 @@ public class MapController : MonoBehaviour
                 for (int j = 0; j < currentPlatformLength; j++)
                 {
                     TileController t = tilePool.GetObjectFromPool();
+                    t.transform.SetParent(chunkTransforms[chunkIndex].transform);
+                    t.Enable(new Vector2(currentTarget.x + j, currentTarget.y), isWhite);
+                    tiles.Add(t);
                 }
 
+                currentTarget.Set(x + currentPlatformLength, y);
+
                 // Roll to change colour
+                if (random.GetRandomInt(100) < sinceColorChangeCount)
+                {
+                    isWhite = !isWhite;
+                }
             }
 
-            // Get new height
-            //byte newHeightTarget = random.GetRandomInt(currentTarget.y)
-            //// Leave a gap?
-            //if (random.GetRandomInt(100) - currentChunkTileCount < 75)
-            //{
-
-            //}
+            // Create new chunk data and assign chunk data generated above
+            mapChunkData = new ChunkData(tiles, colliders);
+            chunkTransforms[chunkIndex].SetData(mapChunkData);
+            UpdateChunkIndex();
         }
 
     }
@@ -182,11 +195,15 @@ public class MapController : MonoBehaviour
         if(canPoolChunks)
         {
             Debug.Log("REC --- POOL CHUNK! ");
-
             // Reposition oldest chunk
             chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
-            // Update current chunkIndex
-            UpdateChunkIndex();
+
+            // Pool it's tiles and colliders
+            tilePool.PoolObjectList(ref cd.tiles);
+            colliderPool.PoolObjectList(ref cd.colliders);
+
+            // Plot new chunk
+            PlotChunk();
         }
         else
         {
