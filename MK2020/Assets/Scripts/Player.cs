@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     float powerMultiplier = 5.0f;
     Vector2 jumpVector = Vector2.zero;
     [SerializeField]
-    FloorCollider floorCollider = null;
+    FloorSensor floorSensor = null;
 
     void Start()
     {
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
     {
         if(!isPaused)
         {
-            if(floorCollider.GetCanJump())
+            if(floorSensor.GetCanJump())
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > minPower)
                 {

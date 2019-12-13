@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MapController : MonoBehaviour
+{
+    [SerializeField]
+    RandomSystem random = null;
+    [SerializeField]
+    byte chunkWidth = 0;
+    [SerializeField]
+    byte chunkHeight = 0;
+
+    // Config
+    byte leadSpace = 0;
+    Vector2Int currentTarget = Vector2Int.zero;
+    byte startRampSize = 10;
+    byte rampHeightDelta = 3;
+    byte minHeight = 1;
+    byte maxHeight = 6;
+    byte heightOffset = 2;
+
+    // Spawn config
+    bool isWhite = true;
+    byte colourCount = 0;
+
+    // Map Data
+    ChunkData mapChunk;
+    [SerializeField]
+    ChunkController[] chunkTransforms;
+    byte chunkIndex = 0;
+    byte activeChunkCount = 0;
+
+    // Chunk movement
+    float speed = 5.0f;
+    Vector3 movementDelta = Vector3.zero;
+
+    // Events
+    [SerializeField]
+    ChunkTrigger[] chunkTriggers;
+
+    void Awake()
+    {
+        float heightf = Camera.main.orthographicSize * 2.0f;
+        float widthf = heightf * Camera.main.aspect;
+
+        leadSpace = (byte)(Mathf.CeilToInt(widthf) * 0.5f);
+
+        chunkWidth = (byte)(leadSpace * 3);
+        chunkHeight = (byte)Mathf.CeilToInt(heightf);
+
+        activeChunkCount = (byte)chunkTransforms.Length;
+    }
+
+    void Start()
+    {
+        // Build Chunks
+
+        // Subscribe To events
+        for (int i = 0; i < activeChunkCount; i++)
+        {
+            chunkTriggers[i].poolThisChunk += OnChunkPoolEvent;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        MoveChunks();
+    }
+
+    void MoveChunks()
+    {
+        movementDelta = new Vector3(-speed * Time.fixedDeltaTime, 0.0f, 0.0f);
+
+        for (int i = 0; i < activeChunkCount; i++)
+        {
+            chunkTransforms[i].transform.position += movementDelta;
+        }
+    }
+
+    // Event Subscriptions
+
+    void OnChunkPoolEvent(ChunkData cd, EventArgs e)
+    {
+        Debug.Log("POOL CHUNK: ");
+    }
+}
+
+public struct ChunkData
+{
+    public List<TileController> tiles;
+    public List<ColliderController> colliders;
+
+    public ChunkData(List<TileController> tiles, List<ColliderController> colliders)
+    {
+        this.tiles = tiles;
+        this.colliders = colliders;
+    }
+}
