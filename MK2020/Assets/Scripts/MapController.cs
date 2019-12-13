@@ -55,7 +55,7 @@ public class MapController : MonoBehaviour
     void Awake()
     {
         // Start the random system
-        random.Init("FUCK GAPS");
+        random.Init("blah blah seed lah");
 
         // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;
@@ -157,7 +157,7 @@ public class MapController : MonoBehaviour
                 }
 
                 // Generate new platform data
-                byte maxLength = (byte)random.GetRandomInt(chunkWidth - currentTarget.x);
+                byte maxLength = (byte)random.GetRandomInt(chunkWidth - x);
                 if (maxLength <= minPlatformLength)
                 {
                     maxLength = (byte)(minPlatformLength + 1);
