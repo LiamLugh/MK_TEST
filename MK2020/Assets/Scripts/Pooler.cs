@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Pooler<T> : MonoBehaviour
 {
-    // Unity apprently doesn't support serialisation of generic collections other than List<T>
-    // [SerializeField]
     Queue<T> pool;
     [SerializeField]
     T pfb;

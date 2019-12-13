@@ -8,11 +8,15 @@ public class MapController : MonoBehaviour
     [SerializeField]
     RandomSystem random = null;
     [SerializeField]
+    TilePooler tilePool = null;
+    [SerializeField]
+    ColliderPooler colliderPool = null;
+    [SerializeField]
     byte chunkWidth = 0;
     [SerializeField]
     byte chunkHeight = 0;
 
-    // Config
+    // Chunk Plotting
     byte leadSpace = 0;
     Vector2Int currentTarget = Vector2Int.zero;
     byte startRampSize = 10;
@@ -80,6 +84,19 @@ public class MapController : MonoBehaviour
         }
     }
 
+    void PlotChunk()
+    {
+        List<TileController> tiles = new List<TileController>();
+        List<ColliderController> colliders = new List<ColliderController>();
+
+
+    }
+
+    void UpdateChunkIndex()
+    {
+        chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
+    }
+
     // Event Subscriptions
 
     void OnChunkPoolEvent(ChunkData cd, EventArgs e)
@@ -87,8 +104,11 @@ public class MapController : MonoBehaviour
         if(canPoolChunks)
         {
             Debug.Log("REC --- POOL CHUNK! ");
+
+            // Reposition oldest chunk
             chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
-            chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
+            // Update current chunkIndex
+            UpdateChunkIndex();
         }
         else
         {

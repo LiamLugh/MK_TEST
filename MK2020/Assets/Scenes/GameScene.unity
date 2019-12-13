@@ -161,6 +161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 284590717}
+  - component: {fileID: 284590718}
   m_Layer: 0
   m_Name: ColliderPooler
   m_TagString: Untagged
@@ -182,6 +183,19 @@ Transform:
   m_Father: {fileID: 1242598858}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &284590718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284590716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8057e47c7879b1c448ec56895db4afaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pfb: {fileID: 3437193501989492179, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b, type: 3}
 --- !u!1 &408882066
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,7 +891,7 @@ MonoBehaviour:
   maxPower: 30
   minPower: 15
   powerMultiplier: 35
-  floorCollider: {fileID: 1256987439}
+  floorSensor: {fileID: 1256987439}
 --- !u!58 &1009898905
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1033,7 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a50f436a4e698438a00cef123a0717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 720
+  speed: 520
   negate: 1
   axis: 2
 --- !u!1 &1122288605
@@ -1136,6 +1150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   random: {fileID: 607479148}
+  tilePool: {fileID: 0}
+  colliderPool: {fileID: 0}
   chunkWidth: 0
   chunkHeight: 0
   chunkTransforms:
@@ -1172,10 +1188,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256987441}
-  - component: {fileID: 1256987440}
   - component: {fileID: 1256987439}
+  - component: {fileID: 1256987440}
   m_Layer: 0
-  m_Name: FloorCollider
+  m_Name: FloorSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,8 +1210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canJump: 0
---- !u!61 &1256987440
-BoxCollider2D:
+--- !u!58 &1256987440
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1207,19 +1223,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.25, y: -0.6}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.5, y: -0.5}
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.25}
-  m_EdgeRadius: 0
+  m_Radius: 0.25
 --- !u!4 &1256987441
 Transform:
   m_ObjectHideFlags: 0
@@ -1418,6 +1424,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437193501989492179, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b,
+        type: 3}
+      propertyPath: type
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b, type: 3}
