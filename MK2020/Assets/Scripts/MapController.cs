@@ -25,7 +25,7 @@ public class MapController : MonoBehaviour
     byte maxHeight = 6;
     byte heightOffset = 2;
 
-    // Spawn config
+    // Chunk spawn config
     bool isWhite = true;
     byte colourCount = 0;
 
@@ -47,11 +47,14 @@ public class MapController : MonoBehaviour
 
     void Awake()
     {
+        // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;
         float widthf = heightf * Camera.main.aspect;
 
+        // Get the half screen length
         leadSpace = (byte)(Mathf.CeilToInt(widthf) * 0.5f);
 
+        // Set the width of each chunk to a screen and a half in length, so can reset smoothly
         chunkWidth = (byte)(leadSpace * 3);
         chunkHeight = (byte)Mathf.CeilToInt(heightf);
 
@@ -60,11 +63,11 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
-        // Build Chunks
-
         // Subscribe To events
         for (int i = 0; i < activeChunkCount; i++)
         {
+            // Build Chunks - added in here to reduce to save a loop
+            PlotChunk();
             chunkTriggers[i].poolThisChunk += OnChunkPoolEvent;
         }
     }
@@ -86,9 +89,28 @@ public class MapController : MonoBehaviour
 
     void PlotChunk()
     {
+        // Create new lists for chunk contents, to be assigned to ChunkData struct, for this particular chunk
         List<TileController> tiles = new List<TileController>();
         List<ColliderController> colliders = new List<ColliderController>();
 
+        // Reset current plot target to left of the new chunk at whatever height it previously was
+        currentTarget.Set(0, currentTarget.y);
+
+        byte currentChunkTileCount = 0;
+        byte currentPlatformLength = 0;
+
+        // Loop over the positions of the chunk
+        for (int i = 0; i < chunkWidth; i++)
+        {
+            /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
+            // Get new height
+            //byte newHeightTarget = random.GetRandomInt(currentTarget.y)
+            //// Leave a gap?
+            //if (random.GetRandomInt(100) - currentChunkTileCount < 75)
+            //{
+
+            //}
+        }
 
     }
 
