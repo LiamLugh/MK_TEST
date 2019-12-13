@@ -42,6 +42,7 @@ public class MapController : MonoBehaviour
     byte minPlatformLength = 1;
 
     // Chunk movement
+    Vector2 chunkStartingPosition = Vector2.zero;
     bool canPoolChunks = false;
     float speed = 5.0f;
     Vector3 movementDelta = Vector3.zero;
@@ -75,8 +76,9 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
-        // Hard offset second chunk at start
+        // Hard offset second chunk at start, and chunk starting position
         chunkTransforms[1].transform.position = new Vector2(chunkWidth, 0.0f);
+        chunkStartingPosition = new Vector2(chunkWidth - 8, 0.0f);  //TODO - Change this magic number
 
         // Subscribe To events
         for (int i = 0; i < activeChunkCount; i++)
@@ -213,7 +215,7 @@ public class MapController : MonoBehaviour
         if(canPoolChunks)
         {
             // Reposition oldest chunk
-            chunkTransforms[chunkIndex].transform.position += Vector3.right * (chunkWidth + chunkTriggerOffset);
+            chunkTransforms[chunkIndex].transform.position = chunkStartingPosition;
 
             // Pool it's tiles and colliders
             TileController[] tControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<TileController>();
