@@ -16,7 +16,7 @@ public class ChunkTrigger : MonoBehaviour
     {
         if (!other.GetComponent<Player>()) return;
 
-        Debug.Log("THIS HAPPENED");
+        Debug.Log("SEND --- POOL THIS POOL");
         poolThisChunk?.Invoke(cd, EventArgs.Empty);
     }
 }

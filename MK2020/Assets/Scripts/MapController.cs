@@ -33,6 +33,7 @@ public class MapController : MonoBehaviour
     byte activeChunkCount = 0;
 
     // Chunk movement
+    bool canPoolChunks = false;
     float speed = 5.0f;
     Vector3 movementDelta = Vector3.zero;
 
@@ -83,7 +84,16 @@ public class MapController : MonoBehaviour
 
     void OnChunkPoolEvent(ChunkData cd, EventArgs e)
     {
-        Debug.Log("POOL CHUNK: ");
+        if(canPoolChunks)
+        {
+            Debug.Log("REC --- POOL CHUNK! ");
+            chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
+            chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
+        }
+        else
+        {
+            canPoolChunks = true;
+        }
     }
 }
 
