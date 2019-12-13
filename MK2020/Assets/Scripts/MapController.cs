@@ -44,6 +44,7 @@ public class MapController : MonoBehaviour
     bool canPoolChunks = false;
     float speed = 5.0f;
     Vector3 movementDelta = Vector3.zero;
+    byte chunkTriggerOffset = 13;
 
     // Events
     [SerializeField]
@@ -61,8 +62,11 @@ public class MapController : MonoBehaviour
         // Get the half screen length
         leadSpace = (byte)(Mathf.CeilToInt(widthf) * 0.5f);
 
+        // Get the chunk pool trigger offset
+        chunkTriggerOffset = (byte)chunkTriggers[0].transform.localPosition.x;
+
         // Set the width of each chunk to a screen and a half in length, so can reset smoothly
-        chunkWidth = (byte)(leadSpace * 3);
+        chunkWidth = (byte)(leadSpace * 4);
         chunkHeight = (byte)Mathf.CeilToInt(heightf);
 
         activeChunkCount = (byte)chunkTransforms.Length;
@@ -114,7 +118,7 @@ public class MapController : MonoBehaviour
             /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
 
             // Roll for gap chance
-            if (random.GetRandomInt(100) < gapChance + currentChunkTileCount)
+            if (random.GetRandomInt(100) < gapChance)
             {
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
                 byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - y) ? maxGapSize : chunkWidth - y);
@@ -199,7 +203,7 @@ public class MapController : MonoBehaviour
         if(canPoolChunks)
         {
             // Reposition oldest chunk
-            chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
+            chunkTransforms[chunkIndex].transform.position += Vector3.right * (chunkWidth + chunkTriggerOffset);
 
             // Pool it's tiles and colliders
             TileController[] tControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<TileController>();

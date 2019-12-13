@@ -19,8 +19,8 @@ public class ColliderController : MonoBehaviour
 
         type = cd.type;
         isWhite = cd.isWhite;
-        collider.size.Set(cd.size, 1.0f);
-        collider.offset.Set(cd.size * 0.5f, 0.0f);
+        collider.size = new Vector2(cd.size, 1.0f);
+        collider.offset = new Vector2(cd.size * 0.5f - 0.5f, 0.0f);
     }
 
     public void Disable()

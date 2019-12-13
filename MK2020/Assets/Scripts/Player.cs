@@ -19,9 +19,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     float jumpPower = 0.0f;
     [SerializeField]
-    float maxPower = 25.0f;
+    float maxPower = 20.0f;
     [SerializeField]
-    float minPower = 15.0f;
+    float minJumpPower = 15.0f;
+    [SerializeField]
+    float minPower = 10.0f;
     [SerializeField]
     float powerMultiplier = 5.0f;
     Vector2 jumpVector = Vector2.zero;
@@ -67,10 +69,15 @@ public class Player : MonoBehaviour
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > minPower)
                 {
-                    rb.velocity.Set(0.0f, 0.0f);
+                    rb.velocity = Vector2.zero;
+                    if(jumpPower < minJumpPower)
+                    {
+                        jumpPower = minJumpPower;
+                    }
                     jumpVector.Set(0.0f, jumpPower);
                     rb.AddForce(jumpVector, ForceMode2D.Impulse);
                     jumpPower = 0.0f;
+                    floorSensor.SetCanJump(false);
                 }
             }
 

@@ -20,21 +20,13 @@ public class FloorSensor : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        ColliderController c = other.GetComponent<ColliderController>();
-
-        if(c != null)
-        {
-            if (c.GetColliderType() == ColliderType.FLOOR)
-            {
-                canJump = false;
-            }
-        }
-    }
-
     public bool GetCanJump()
     {
         return canJump;
+    }
+
+    public void SetCanJump(bool value)
+    {
+        canJump = value;
     }
 }
