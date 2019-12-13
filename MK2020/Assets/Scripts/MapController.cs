@@ -36,8 +36,9 @@ public class MapController : MonoBehaviour
     byte activeChunkCount = 0;
     byte heightChangeChance = 25;
     byte gapChance = 10;
-    byte minGapSize = 3;
-    byte maxGapSize = 5;
+    byte currentGapLength = 0;
+    byte minGapSize = 1;
+    byte maxGapSize = 3;
     byte minPlatformLength = 1;
 
     // Chunk movement
@@ -52,8 +53,8 @@ public class MapController : MonoBehaviour
 
     void Awake()
     {
-        // Initialise the random system
-        random.Init();
+        // Start the random system
+        random.Init("FUCK GAPS");
 
         // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;
@@ -74,6 +75,9 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
+        // Hard offset second chunk at start
+        chunkTransforms[1].transform.position = new Vector2(chunkWidth, 0.0f);
+
         // Subscribe To events
         for (int i = 0; i < activeChunkCount; i++)
         {
@@ -115,18 +119,23 @@ public class MapController : MonoBehaviour
             byte x = (byte)currentTarget.x;
             byte y = (byte)currentTarget.y;
 
-            /////////// ROLL FOR NEW HEIGHT, THEN GAP? THEN PLATFORM >>> LENGTH POSTION ETC ADD TO LISTS, UNTIL DONE, THEN ADD ALL TO CHUNKDATA
-
             // Roll for gap chance
-            if (random.GetRandomInt(100) < gapChance)
+            if (random.GetRandomInt(100) < gapChance - currentGapLength)
             {
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
-                byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - y) ? maxGapSize : chunkWidth - y);
+                byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - x) ? maxGapSize : chunkWidth - x);
                 // Skip loop forawrd by gap size
                 i += gapLength;
+                // Update new X position target
+                x += gapLength;
+                // Update current gap length total
+                currentGapLength += gapLength;
             }
             else
             {
+                // Reset Gap Length
+                currentGapLength = 0;
+
                 // Rool for heightChange
                 if (random.GetRandomInt(100) < heightChangeChance)
                 {
@@ -175,7 +184,6 @@ public class MapController : MonoBehaviour
                 i += currentPlatformLength;
                 // Update position with platform width
                 x += currentPlatformLength;
-                currentTarget.Set(x, y);
 
                 // Roll to change colour
                 if (random.GetRandomInt(100) < sinceColorChangeCount)
@@ -183,6 +191,8 @@ public class MapController : MonoBehaviour
                     isWhite = !isWhite;
                 }
             }
+
+            currentTarget.Set(x, y);
         }
 
         // Create new chunk data and assign chunk data generated above
