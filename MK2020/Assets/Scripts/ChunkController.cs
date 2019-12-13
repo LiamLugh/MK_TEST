@@ -6,9 +6,14 @@ public class ChunkController : MonoBehaviour
 {
     ChunkData data;
 
-    public ChunkData GetData()
+    public ref List<TileController> GetTiles()
     {
-        return data;
+        return ref data.tiles;
+    }
+
+    public ref List<ColliderController> GetColliders()
+    {
+        return ref data.colliders;
     }
 
     public void SetData(ChunkData data)

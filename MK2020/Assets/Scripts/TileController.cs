@@ -19,7 +19,7 @@ public class TileController : MonoBehaviour
         {
             myRenderer.material = mats[1];
         }
-        gameObject.transform.position = position;
+        gameObject.transform.localPosition = position;
         gameObject.SetActive(true);
     }
 

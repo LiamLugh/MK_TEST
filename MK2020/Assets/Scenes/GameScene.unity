@@ -1150,8 +1150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   random: {fileID: 607479148}
-  tilePool: {fileID: 0}
-  colliderPool: {fileID: 0}
+  tilePool: {fileID: 586019708}
+  colliderPool: {fileID: 284590718}
   chunkWidth: 0
   chunkHeight: 0
   chunkTransforms:
@@ -1359,6 +1359,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Collider
+      objectReference: {fileID: 0}
+    - target: {fileID: 65468724211011654, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 65468724211011653, guid: 661e29ef92e73ee4abc0eaa9c4fcd82b,
         type: 3}

@@ -166,7 +166,7 @@ public class MapController : MonoBehaviour
                     tiles.Add(t);
                 }
 
-                currentTarget.Set(x + currentPlatformLength, y);
+                x += currentPlatformLength;
 
                 // Roll to change colour
                 if (random.GetRandomInt(100) < sinceColorChangeCount)
@@ -174,33 +174,32 @@ public class MapController : MonoBehaviour
                     isWhite = !isWhite;
                 }
             }
-
-            // Create new chunk data and assign chunk data generated above
-            mapChunkData = new ChunkData(tiles, colliders);
-            chunkTransforms[chunkIndex].SetData(mapChunkData);
-            UpdateChunkIndex();
         }
 
+        // Create new chunk data and assign chunk data generated above
+        mapChunkData = new ChunkData(tiles, colliders);
+        chunkTransforms[chunkIndex].SetData(mapChunkData);
+        UpdateChunkIndex();
     }
 
     void UpdateChunkIndex()
     {
+        Debug.Log("====================");
         chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
     }
 
     // Event Subscriptions
 
-    void OnChunkPoolEvent(ChunkData cd, EventArgs e)
+    void OnChunkPoolEvent(EventArgs e)
     {
         if(canPoolChunks)
         {
-            Debug.Log("REC --- POOL CHUNK! ");
             // Reposition oldest chunk
             chunkTransforms[chunkIndex].transform.position += Vector3.right * chunkWidth * 2;
 
             // Pool it's tiles and colliders
-            tilePool.PoolObjectList(ref cd.tiles);
-            colliderPool.PoolObjectList(ref cd.colliders);
+            tilePool.PoolObjectList(ref chunkTransforms[chunkIndex].GetTiles());
+            colliderPool.PoolObjectList(ref chunkTransforms[chunkIndex].GetColliders());
 
             // Plot new chunk
             PlotChunk();
