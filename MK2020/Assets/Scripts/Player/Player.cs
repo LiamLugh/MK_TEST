@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void GameOverEventHandler(EventArgs e);
+
 public class Player : MonoBehaviour
 {
+    public event GameOverEventHandler gameOverEventHandler;
+
     [Header("Physics")]
     [SerializeField]
     Rigidbody2D rb = null;
@@ -181,7 +186,7 @@ public class Player : MonoBehaviour
     // Game Over
     public void GameOver()
     {
-        Debug.Log("GAMEOVERRRRR");
+        gameOverEventHandler?.Invoke(EventArgs.Empty);
         audioSystem.PlayGameOverSFX();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,27 @@ public class PauseSystem : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     Image pauseScreen = null;
+    [SerializeField]
+    Image gameOverScreen = null;
+
+    // Events
+    void Start()
+    {
+        player.gameOverEventHandler += OnGameOverEvent;
+    }
+
+    private void OnGameOverEvent(EventArgs e)
+    {
+        EndGamePause();
+    }
+
+    void EndGamePause()
+    {
+        player.Pause();
+        mapSystem.Pause();
+        colourSensor.Pause();
+        gameOverScreen.gameObject.SetActive(true);
+    }
 
     public void PauseToggle()
     {
