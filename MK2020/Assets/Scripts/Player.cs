@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     Material[] mats = null;
     bool isWhiteMode = true;
     float halfScreenWidth = 0.0f;
-    bool isPaused = false;
     [SerializeField]
     float jumpPower = 0.0f;
     [SerializeField]
@@ -29,6 +28,12 @@ public class Player : MonoBehaviour
     Vector2 jumpVector = Vector2.zero;
     [SerializeField]
     FloorSensor floorSensor = null;
+
+    // Pause System
+    bool isPaused = false;
+    Vector2 previousVelocity = Vector2.zero;
+    float previousGravityScale = 0.0f;
+
 
     void Start()
     {
@@ -115,5 +120,22 @@ public class Player : MonoBehaviour
             childRenderers[i].material = mats[1];
         }
         isWhiteMode = true;
+    }
+
+    // Pause System
+    public void Pause()
+    {
+        isPaused = true;
+        previousVelocity = rb.velocity;
+        rb.velocity = Vector2.zero;
+        previousGravityScale = rb.gravityScale;
+        rb.gravityScale = 0.0f;
+    }
+
+    public void Unpause()
+    {
+        isPaused = false;
+        rb.velocity = previousVelocity;
+        rb.gravityScale = previousGravityScale;
     }
 }

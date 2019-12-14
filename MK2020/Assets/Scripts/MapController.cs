@@ -54,6 +54,9 @@ public class MapController : MonoBehaviour
     byte chunkTriggerOffset = 13;
     byte chunkStartPosOffset = 8;
 
+    // Pause System
+    bool isPaused = false;
+
     // Events
     [SerializeField]
     ChunkTrigger[] chunkTriggers = null;
@@ -96,8 +99,11 @@ public class MapController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateSpeed();
-        MoveChunks();
+        if(!isPaused)
+        {
+            UpdateSpeed();
+            MoveChunks();
+        }
     }
 
     void MoveChunks()
@@ -219,6 +225,17 @@ public class MapController : MonoBehaviour
         {
             speed += acceleration * Time.fixedDeltaTime;
         }
+    }
+
+    // Pause System
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void Unpause()
+    {
+        isPaused = false;
     }
 
     // Event Subscriptions
