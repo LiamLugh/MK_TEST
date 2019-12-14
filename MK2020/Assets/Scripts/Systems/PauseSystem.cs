@@ -50,4 +50,11 @@ public class PauseSystem : MonoBehaviour
         player.Unpause();
         mapSystem.Unpause();
     }
+
+    void GameOverPause()
+    {
+        audioSystem.PlayGameOverSFX();
+        player.Pause();
+        mapSystem.Pause();
+    }
 }

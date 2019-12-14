@@ -77,4 +77,9 @@ public class AudioSystem : MonoBehaviour
     {
         deathSource.pitch = (value / 1.0f) * -3.0f;
     }
+
+    public void ResetWarningSFX()
+    {
+        deathSource.pitch = 0.0f;
+    }
 }

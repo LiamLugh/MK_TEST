@@ -152,6 +152,71 @@ Transform:
   m_Father: {fileID: 1242598858}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &80806760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 80806761}
+  - component: {fileID: 80806763}
+  - component: {fileID: 80806762}
+  m_Layer: 0
+  m_Name: ColourSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &80806761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80806760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1009898902}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &80806762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80806760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed48556f39ebf349bc006b690b32c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1009898904}
+  audioSystem: {fileID: 1991976725}
+  countdownImage: {fileID: 1385489937}
+  timeThreshold: 3
+  isCountingDown: 0
+--- !u!58 &80806763
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80806760}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.25, y: -0.5}
+  serializedVersion: 2
+  m_Radius: 0.25
 --- !u!1 &105509267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1600,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 24e6e84a13509fd4089fcaf159c7eac3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.125
-  m_Pitch: -1.95
+  m_Pitch: 0
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -2162,6 +2227,7 @@ Transform:
   m_Children:
   - {fileID: 1056197348}
   - {fileID: 1256987441}
+  - {fileID: 80806761}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2217,6 +2283,7 @@ MonoBehaviour:
   jumpPowerThreshold: 7.25
   powerMultiplier: 30
   audioSystem: {fileID: 1991976725}
+  colourSensor: {fileID: 80806762}
 --- !u!58 &1009898905
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2641,8 +2708,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1009898904}
   audioSystem: {fileID: 1991976725}
-  countdownImage: {fileID: 1385489937}
-  isCountingDown: 0
 --- !u!58 &1256987440
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2656,7 +2721,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: -0.5}
+  m_Offset: {x: 0, y: -0.5}
   serializedVersion: 2
   m_Radius: 0.25
 --- !u!4 &1256987441
@@ -3061,6 +3126,7 @@ MonoBehaviour:
   badCoinValue: 1
   scoreText: {fileID: 630178075}
   highScoreText: {fileID: 585296257}
+  audioSystem: {fileID: 1991976725}
 --- !u!1 &1681368315
 GameObject:
   m_ObjectHideFlags: 0
@@ -3560,6 +3626,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1eaad1c6e26698440adf32d7144104e2, type: 3}
   - {fileID: 8300000, guid: 6262dc47a6e346743b4a053929a64a3b, type: 3}
   - {fileID: 8300000, guid: 4243681cc5b39f24485c8c38b6539e16, type: 3}
+  - {fileID: 8300000, guid: 1582b15ff69920b44b2ee3fb4c8261a9, type: 3}
 --- !u!1 &2060338065
 GameObject:
   m_ObjectHideFlags: 0

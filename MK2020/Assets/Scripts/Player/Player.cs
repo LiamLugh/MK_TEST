@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     [Header("References")]
     [SerializeField]
     AudioSystem audioSystem = null;
+    [SerializeField]
+    ColourSensor colourSensor = null;
 
     // Pause System
     bool isPaused = false;
@@ -88,6 +90,7 @@ public class Player : MonoBehaviour
                     rb.AddForce(jumpVector, ForceMode2D.Impulse);
                     jumpPower = 0.0f;
                     canJump = false;
+                    colourSensor.StopCountDown();
                 }
             }
 
@@ -125,6 +128,7 @@ public class Player : MonoBehaviour
             childRenderers[i].material = mats[3];
         }
         isWhite = false;
+        colourSensor.CheckColour();
     }
 
     void SetWhite()
@@ -135,6 +139,7 @@ public class Player : MonoBehaviour
             childRenderers[i].material = mats[1];
         }
         isWhite = true;
+        colourSensor.CheckColour();
     }
 
     public bool GetIsWhite()
