@@ -32,19 +32,20 @@ public class MapController : MonoBehaviour
     byte chunkWidth = 0;
     [SerializeField]
     byte chunkHeight = 0;
+    byte heightOffset = 3;
     [SerializeField]
     ChunkController[] chunkTransforms = null;
     byte chunkIndex = 0;
     byte activeChunkCount = 0;
     byte heightChangeChance = 35;
     byte gapChance = 10;
-    byte currentGapLength = 0;
     byte minGapSize = 2;
     byte maxGapSize = 5;
     byte minPlatformLength = 1;
     byte pickUpChance = 25;
     byte sincePickUpSpawnedCount = 0;
     byte pickUpSpawnBonus = 25;
+    byte maxPickUpSpawnHeight = 7;
 
     // Chunk movement
     Vector2 chunkStartingPosition = Vector2.zero;
@@ -84,6 +85,9 @@ public class MapController : MonoBehaviour
         // Set the width of each chunk to a screen and a half in length, so can reset smoothly
         chunkWidth = (byte)(leadSpace * 4);
         chunkHeight = (byte)Mathf.CeilToInt(heightf);
+
+        // Set pickupspawn bounds based on height
+        maxPickUpSpawnHeight = (byte)(chunkHeight - heightOffset);
 
         activeChunkCount = (byte)chunkTransforms.Length;
     }
@@ -145,23 +149,29 @@ public class MapController : MonoBehaviour
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
                 byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - x) ? maxGapSize : chunkWidth - x);
 
-                // Roll for pick ups
-                
+                // Roll for pick ups across the length of the gap
                 for (int j = 0; j < gapLength; j++)
                 {
-                    if (random.GetRandomInt(100) < pickUpChance + sincePickUpSpawnedCount + pickUpSpawnBonus)   // IOncreased chance over gaps
+                    if (random.GetRandomInt(100) < pickUpChance + sincePickUpSpawnedCount + pickUpSpawnBonus)   // Increased chance over gaps
                     {
                         // Get a pickUp from the pool
                         PickUpController p = pickUpPool.GetObjectFromPool();
 
                         // Generate appropriate height to spawn pick up
-                        byte minY = (y + 2 > maxHeight) ? maxHeight : (byte)(y + 2);
-                        byte newY = (byte)random.GetRandomInt(minY, maxHeight);
+                        byte minY = (y + 2 > maxPickUpSpawnHeight) ? maxPickUpSpawnHeight : (byte)(y + 2);
+                        byte newY = (byte)random.GetRandomInt(minY, maxPickUpSpawnHeight);
 
                         Vector2 pos = new Vector2(x + j, newY);
 
                         // Enable it with data above
                         p.Enable(chunkTransforms[chunkIndex].transform, pos, isWhite);
+
+                        // Update tracking
+                        sincePickUpSpawnedCount = 0;
+                    }
+                    else
+                    {
+                        sincePickUpSpawnedCount++;
                     }
                 }
 
@@ -169,14 +179,9 @@ public class MapController : MonoBehaviour
                 i += gapLength;
                 // Update new X position target
                 x += gapLength;
-                // Update current gap length total
-                currentGapLength += gapLength; 
             }
             else
             {
-                // Reset Gap Length
-                currentGapLength = 0;
-
                 // Rool for heightChange
                 if (random.GetRandomInt(100) < heightChangeChance)
                 {
@@ -199,6 +204,34 @@ public class MapController : MonoBehaviour
                 // Generate new platform data
                 byte maxLength = (byte)(chunkWidth - x + 1);
                 currentPlatformLength = (byte)random.GetRandomInt(minPlatformLength, maxLength);
+
+                // Roll for pick ups across the length of the platform
+                for (int j = 0; j < currentPlatformLength; j++)
+                {
+                    if (random.GetRandomInt(100) < pickUpChance + sincePickUpSpawnedCount)
+                    {
+                        // Get a pickUp from the pool
+                        PickUpController p = pickUpPool.GetObjectFromPool();
+
+                        // Generate appropriate height to spawn pick up
+                        byte minY = (y + 1 > maxPickUpSpawnHeight) ? maxPickUpSpawnHeight : (byte)(y + 1);
+                        byte newY = (byte)random.GetRandomInt(minY, maxPickUpSpawnHeight + 1);
+
+                        Vector2 pos = new Vector2(x + j, newY);
+
+                        Debug.Log("=======" + pos);
+
+                        // Enable it with data above
+                        p.Enable(chunkTransforms[chunkIndex].transform, pos, isWhite);
+
+                        // Update tracking
+                        sincePickUpSpawnedCount = 0;
+                    }
+                    else
+                    {
+                        sincePickUpSpawnedCount++;
+                    }
+                }
 
                 // Update tracking vars
                 currentChunkTileCount += currentPlatformLength;
@@ -272,7 +305,7 @@ public class MapController : MonoBehaviour
             // Reposition oldest chunk
             chunkTransforms[chunkIndex].transform.position = chunkStartingPosition;
 
-            // Pool it's tiles and colliders
+            // Pool it's tiles
             TileController[] tControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<TileController>();
             tilePool.PoolObjectList(tControllers);
             for (int i = 0; i < tControllers.Length; i++)
@@ -280,12 +313,23 @@ public class MapController : MonoBehaviour
                 tControllers[i].transform.SetParent(tilePool.transform);
                 tControllers[i].Disable();
             }
+
+            // And colliders
             ColliderController[] cControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<ColliderController>();
             colliderPool.PoolObjectList(cControllers);
             for (int i = 0; i < cControllers.Length; i++)
             {
                 cControllers[i].transform.SetParent(colliderPool.transform);
                 cControllers[i].Disable();
+            }
+
+            // And any active PickUps
+            PickUpController[] pControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<PickUpController>();
+            pickUpPool.PoolObjectList(pControllers);
+            for (int i = 0; i < pControllers.Length; i++)
+            {
+                pControllers[i].transform.SetParent(pickUpPool.transform);
+                pControllers[i].Disable();
             }
 
             // Plot new chunk

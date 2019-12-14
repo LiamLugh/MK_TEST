@@ -24,16 +24,8 @@ public class PickUpController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Player>())
-        {
-            toScore = true;
-            poolThisPickUp?.Invoke(this, EventArgs.Empty);
-        }
-        else if (other.GetComponent<PickUpDeadZone>())
-        {
-            toScore = true;
-            poolThisPickUp?.Invoke(this, EventArgs.Empty);
-        }
+        if (!other.GetComponent<Player>()) return;
+        poolThisPickUp?.Invoke(this, EventArgs.Empty);
     }
 
     public void Enable(Transform parentTransform, Vector2 position, bool isWhite)
