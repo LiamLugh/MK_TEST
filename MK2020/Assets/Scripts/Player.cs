@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Physics")]
     [SerializeField]
     Rigidbody2D rb = null;
+    [SerializeField]
+    FloorSensor floorSensor = null;
+    [Header("Rendering")]
     [SerializeField]
     Renderer myRenderer = null;
     [SerializeField]
@@ -15,6 +19,7 @@ public class Player : MonoBehaviour
     Material[] mats = null;
     bool isWhiteMode = true;
     float halfScreenWidth = 0.0f;
+    [Header("Jump Stats")]
     [SerializeField]
     float jumpPower = 0.0f;
     [SerializeField]
@@ -22,24 +27,20 @@ public class Player : MonoBehaviour
     [SerializeField]
     float minJumpPower = 15.0f;
     [SerializeField]
-    float minPower = 10.0f;
+    float jumpPowerThreshold = 10.0f;
     [SerializeField]
     float powerMultiplier = 5.0f;
     Vector2 jumpVector = Vector2.zero;
-    [SerializeField]
-    FloorSensor floorSensor = null;
 
     // Pause System
     bool isPaused = false;
     Vector2 previousVelocity = Vector2.zero;
     float previousGravityScale = 0.0f;
 
-
     void Start()
     {
         childrenCount = childRenderers.Length;
         halfScreenWidth = Screen.width / 2;
-        jumpPower = minPower;
     }
 
     void Update()
@@ -72,7 +73,7 @@ public class Player : MonoBehaviour
         {
             if(floorSensor.GetCanJump())
             {
-                if((!Input.anyKey && Input.touchCount == 0) && jumpPower > minPower)
+                if((!Input.anyKey && Input.touchCount == 0) && jumpPower > jumpPowerThreshold)
                 {
                     rb.velocity = Vector2.zero;
                     if(jumpPower < minJumpPower)

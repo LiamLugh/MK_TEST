@@ -5,20 +5,21 @@ using UnityEngine.UI;
 
 public class ScoringSystem : MonoBehaviour
 {
+    [Header("Scores")]
     [SerializeField]
     uint currentScore = 0;
     [SerializeField]
     uint currentHighScore = 0;
 
-    // UI references
+    [Header("UI")]
     [SerializeField]
-    Text scoreText;
+    Text scoreText = null;
     [SerializeField]
-    Text highScoreText;
+    Text highScoreText = null;
 
     void Awake()
     {
-
+        // Get highscore data
     }
 
     void Start()

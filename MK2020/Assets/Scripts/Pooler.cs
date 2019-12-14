@@ -7,7 +7,7 @@ public class Pooler<T> : MonoBehaviour
 {
     protected Queue<T> pool;
     [SerializeField]
-    protected T pfb;
+    protected T prefab;
 
     void Awake()
     {

@@ -6,7 +6,7 @@ public class ColliderPooler : Pooler<ColliderController>
 {
     protected override void CreateAndPoolObject()
     {
-        ColliderController c = Instantiate(pfb);
+        ColliderController c = Instantiate(prefab);
         pool.Enqueue(c);
     }
 }

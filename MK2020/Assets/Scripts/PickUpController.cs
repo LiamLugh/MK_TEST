@@ -1,15 +1,40 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void PickUpPoolEventHandler(PickUpController p, EventArgs e);
+
+public enum PickUpType { WHITE_COIN, BLACK_COIN, NONE };
+
 public class PickUpController : MonoBehaviour
 {
+    public event PickUpPoolEventHandler poolThisPickUp;
+
     [SerializeField]
     Material[] mats = null;
     [SerializeField]
     Renderer myRenderer = null;
     [SerializeField]
     bool isWhite = true;
+    [SerializeField]
+    PickUpType type = PickUpType.NONE;
+    [SerializeField]
+    bool toScore = false;
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Player>())
+        {
+            toScore = true;
+            poolThisPickUp?.Invoke(this, EventArgs.Empty);
+        }
+        else if (other.GetComponent<PickUpDeadZone>())
+        {
+            toScore = true;
+            poolThisPickUp?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     public void Enable(Transform parentTransform, Vector2 position, bool isWhite)
     {
@@ -28,6 +53,7 @@ public class PickUpController : MonoBehaviour
         }
 
         this.isWhite = isWhite;
+        this.type = (isWhite) ? PickUpType.WHITE_COIN : PickUpType.BLACK_COIN;
     }
 
     public void Disable()
@@ -38,5 +64,15 @@ public class PickUpController : MonoBehaviour
     public bool GetIsWhite()
     {
         return isWhite;
+    }
+
+    public PickUpType GetPickUpType()
+    {
+        return type;
+    }
+
+    public bool GetToScore()
+    {
+        return toScore;
     }
 }

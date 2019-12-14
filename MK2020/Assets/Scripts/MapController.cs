@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
+    [Header("Systems")]
     [SerializeField]
     RandomSystem random = null;
     [SerializeField]
@@ -13,10 +14,6 @@ public class MapController : MonoBehaviour
     ColliderPooler colliderPool = null;
     [SerializeField]
     PickUpPooler pickUpPool = null;
-    [SerializeField]
-    byte chunkWidth = 0;
-    [SerializeField]
-    byte chunkHeight = 0;
 
     // Chunk Plotting
     byte leadSpace = 0;
@@ -30,6 +27,11 @@ public class MapController : MonoBehaviour
 
     // Map Data
     ChunkData mapChunkData;
+    [Header("Chunk Data")]
+    [SerializeField]
+    byte chunkWidth = 0;
+    [SerializeField]
+    byte chunkHeight = 0;
     [SerializeField]
     ChunkController[] chunkTransforms = null;
     byte chunkIndex = 0;
@@ -40,6 +42,9 @@ public class MapController : MonoBehaviour
     byte minGapSize = 2;
     byte maxGapSize = 5;
     byte minPlatformLength = 1;
+    byte pickUpChance = 25;
+    byte sincePickUpSpawnedCount = 0;
+    byte pickUpSpawnBonus = 25;
 
     // Chunk movement
     Vector2 chunkStartingPosition = Vector2.zero;
@@ -57,7 +62,7 @@ public class MapController : MonoBehaviour
     // Pause System
     bool isPaused = false;
 
-    // Events
+    [Header("Event Triggers")]
     [SerializeField]
     ChunkTrigger[] chunkTriggers = null;
 
@@ -139,12 +144,33 @@ public class MapController : MonoBehaviour
             {
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
                 byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - x) ? maxGapSize : chunkWidth - x);
+
+                // Roll for pick ups
+                
+                for (int j = 0; j < gapLength; j++)
+                {
+                    if (random.GetRandomInt(100) < pickUpChance + sincePickUpSpawnedCount + pickUpSpawnBonus)   // IOncreased chance over gaps
+                    {
+                        // Get a pickUp from the pool
+                        PickUpController p = pickUpPool.GetObjectFromPool();
+
+                        // Generate appropriate height to spawn pick up
+                        byte minY = (y + 2 > maxHeight) ? maxHeight : (byte)(y + 2);
+                        byte newY = (byte)random.GetRandomInt(minY, maxHeight);
+
+                        Vector2 pos = new Vector2(x + j, newY);
+
+                        // Enable it with data above
+                        p.Enable(chunkTransforms[chunkIndex].transform, pos, isWhite);
+                    }
+                }
+
                 // Skip loop forawrd by gap size
                 i += gapLength;
                 // Update new X position target
                 x += gapLength;
                 // Update current gap length total
-                currentGapLength += gapLength;
+                currentGapLength += gapLength; 
             }
             else
             {
@@ -239,7 +265,6 @@ public class MapController : MonoBehaviour
     }
 
     // Event Subscriptions
-
     void OnChunkPoolEvent(EventArgs e)
     {
         if(canPoolChunks)

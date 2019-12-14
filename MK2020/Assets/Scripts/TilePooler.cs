@@ -6,7 +6,7 @@ public class TilePooler : Pooler<TileController>
 {
     protected override void CreateAndPoolObject()
     {
-        TileController t = Instantiate(pfb);
+        TileController t = Instantiate(prefab);
         pool.Enqueue(t);
     }
 }

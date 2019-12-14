@@ -5,16 +5,19 @@ using UnityEngine.UI;
 
 public class PauseSystem : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     Player p = null;
     [SerializeField]
     MapController m = null;
+
+    [Header("State")]
     [SerializeField]
     bool toggle = true;
 
-    // UI elements
+    [Header("UI")]
     [SerializeField]
-    Image pauseScreen;
+    Image pauseScreen = null;
 
     public void PauseToggle()
     {
