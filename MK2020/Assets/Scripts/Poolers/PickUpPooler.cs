@@ -6,7 +6,7 @@ using UnityEngine;
 public class PickUpPooler : Pooler<PickUpController>
 {
     [SerializeField]
-    ScoringSystem scoring;
+    ScoringSystem scoring = null;
 
     protected override void CreateAndPoolObject()
     {

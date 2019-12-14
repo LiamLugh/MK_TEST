@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     float powerMultiplier = 5.0f;
     Vector2 jumpVector = Vector2.zero;
+    [Header("References")]
+    [SerializeField]
+    AudioSystem audioSystem = null;
 
     // Pause System
     bool isPaused = false;
@@ -75,6 +78,7 @@ public class Player : MonoBehaviour
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > jumpPowerThreshold)
                 {
+                    audioSystem.PlayJumpSFX();
                     rb.velocity = Vector2.zero;
                     if(jumpPower < minJumpPower)
                     {
@@ -106,6 +110,11 @@ public class Player : MonoBehaviour
     public void SetJump(bool canJump)
     {
         this.canJump = canJump;
+    }
+
+    public bool GetCanJump()
+    {
+        return canJump;
     }
 
     void SetBlack()

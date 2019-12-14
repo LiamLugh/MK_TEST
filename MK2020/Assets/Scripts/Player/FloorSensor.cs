@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class FloorSensor : MonoBehaviour
 {
-    [Header("Player Reference")]
+    [Header("References")]
     [SerializeField]
     Player player = null;
+    [SerializeField]
+    AudioSystem audioSystem = null;
 
     [Header("UI")]
     [SerializeField]
@@ -25,8 +27,10 @@ public class FloorSensor : MonoBehaviour
 
         if (c != null)
         {
-            if (c.GetColliderType() == ColliderType.FLOOR)
+            if (c.GetColliderType() == ColliderType.FLOOR && !player.GetCanJump())
             {
+                audioSystem.PlayLandingSFX();
+
                 StopAllCoroutines();
                 isCountingDown = false;
                 player.SetJump(true);

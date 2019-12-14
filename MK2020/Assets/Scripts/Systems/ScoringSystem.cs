@@ -22,9 +22,13 @@ public class ScoringSystem : MonoBehaviour
     [SerializeField]
     Text highScoreText = null;
 
+    [Header("References")]
+    [SerializeField]
+    AudioSystem audioSystem = null;
+
     void Awake()
     {
-        // Get highscore data
+        // Load highscore data
     }
 
     internal void OnPoolPickUpEvent(PickUpController p, bool colourCheck, EventArgs e)
@@ -32,10 +36,12 @@ public class ScoringSystem : MonoBehaviour
         if(colourCheck)
         {
             currentScore += goodCoinValue;
+            audioSystem.PlayGoodCoinSFX();
         }
         else
         {
             currentScore += badCoinValue;
+            audioSystem.PlayBadCoinSFX();
         }
 
         UpdateScoreText(currentScore);

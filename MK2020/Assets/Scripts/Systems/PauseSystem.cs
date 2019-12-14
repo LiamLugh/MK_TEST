@@ -7,9 +7,11 @@ public class PauseSystem : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
-    Player p = null;
+    Player player = null;
     [SerializeField]
-    MapController m = null;
+    MapController mapSystem = null;
+    [SerializeField]
+    AudioSystem audioSystem = null;
 
     [Header("State")]
     [SerializeField]
@@ -37,13 +39,15 @@ public class PauseSystem : MonoBehaviour
 
     void PauseGame()
     {
-        p.Pause();
-        m.Pause();
+        audioSystem.PlayPauseSFX();
+        player.Pause();
+        mapSystem.Pause();
     }
 
     void UnpauseGame()
     {
-        p.Unpause();
-        m.Unpause();
+        audioSystem.PlayUnpauseSFX();
+        player.Unpause();
+        mapSystem.Unpause();
     }
 }
