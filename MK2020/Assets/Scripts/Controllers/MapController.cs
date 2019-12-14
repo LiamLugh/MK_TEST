@@ -70,7 +70,7 @@ public class MapController : MonoBehaviour
     void Awake()
     {
         // Start the random system
-        random.Init("blah blah seed lah");
+        random.Init();
 
         // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;

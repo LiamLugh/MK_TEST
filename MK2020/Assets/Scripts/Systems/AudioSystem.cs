@@ -11,6 +11,8 @@ public class AudioSystem : MonoBehaviour
     AudioSource musicSource = null;
     [SerializeField]
     AudioSource deathSource = null;
+    [SerializeField]
+    AudioSource jumpChargeSource = null;
 
     [Header("Sound Files")]
     [SerializeField]
@@ -52,6 +54,7 @@ public class AudioSystem : MonoBehaviour
         sfxSource.PlayOneShot(sfx[4]);
         musicSource.Pause();
         deathSource.Pause();
+        jumpChargeSource.Pause();
     }
 
     public void PlayUnpauseSFX()
@@ -59,6 +62,7 @@ public class AudioSystem : MonoBehaviour
         sfxSource.PlayOneShot(sfx[5]);
         musicSource.UnPause();
         deathSource.UnPause();
+        jumpChargeSource.UnPause();
     }
 
     public void PlayGameOverSFX()
@@ -66,6 +70,7 @@ public class AudioSystem : MonoBehaviour
         sfxSource.PlayOneShot(sfx[6]);
         musicSource.Pause();
         deathSource.Pause();
+        jumpChargeSource.Pause();
     }
 
     public void PlayJumpSFX()
@@ -81,5 +86,15 @@ public class AudioSystem : MonoBehaviour
     public void ResetWarningSFX()
     {
         deathSource.pitch = 0.0f;
+    }
+
+    public void UpdateJumpChargeSFX(float value)
+    {
+        jumpChargeSource.pitch = (value / 1.0f) * 3.0f;
+    }
+
+    public void ResetJumpChargeSFX()
+    {
+        jumpChargeSource.pitch = 0.0f;
     }
 }

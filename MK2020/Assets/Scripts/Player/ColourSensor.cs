@@ -25,12 +25,13 @@ public class ColourSensor : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        currentCollider = other.GetComponent<ColliderController>();
+        ColliderController newCollider = other.GetComponent<ColliderController>();
 
-        if (currentCollider != null)
+        if (newCollider != null)
         {
-            if (currentCollider.GetColliderType() == ColliderType.FLOOR)
+            if (newCollider.GetColliderType() == ColliderType.FLOOR)
             {
+                currentCollider = newCollider;
                 CheckColour();
             }
         }
@@ -46,6 +47,10 @@ public class ColourSensor : MonoBehaviour
                 {
                     StartCoroutine(Countdown(timeThreshold));
                 }
+            }
+            else
+            {
+                StopCountDown();
             }
         }
     }

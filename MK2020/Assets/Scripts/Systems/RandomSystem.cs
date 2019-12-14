@@ -16,6 +16,7 @@ public class RandomSystem : MonoBehaviour
     {
         if(seed == "")
         {
+            Debug.Log(Time.time.ToString());
             this.seed = Time.time.ToString();
         }
         else

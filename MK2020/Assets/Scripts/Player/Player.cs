@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > jumpPowerThreshold)
                 {
-                    audioSystem.PlayJumpSFX();
                     rb.velocity = Vector2.zero;
                     if(jumpPower < minJumpPower)
                     {
@@ -91,6 +90,10 @@ public class Player : MonoBehaviour
                     jumpPower = 0.0f;
                     canJump = false;
                     colourSensor.StopCountDown();
+
+                    // 
+                    audioSystem.PlayJumpSFX();
+                    //audioSystem.ResetJumpChargeSFX();
                 }
             }
 
@@ -102,6 +105,8 @@ public class Player : MonoBehaviour
                 {
                     jumpPower = maxPower;
                 }
+
+                //audioSystem.UpdateJumpChargeSFX(jumpPower / maxPower);
             }
             else
             {
@@ -168,5 +173,6 @@ public class Player : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("GAMEOVERRRRR");
+        audioSystem.PlayGameOverSFX();
     }
 }
