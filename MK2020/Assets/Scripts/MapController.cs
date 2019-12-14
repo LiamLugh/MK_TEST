@@ -37,16 +37,22 @@ public class MapController : MonoBehaviour
     byte heightChangeChance = 25;
     byte gapChance = 10;
     byte currentGapLength = 0;
-    byte minGapSize = 1;
-    byte maxGapSize = 3;
+    byte minGapSize = 2;
+    byte maxGapSize = 5;
     byte minPlatformLength = 1;
 
     // Chunk movement
     Vector2 chunkStartingPosition = Vector2.zero;
     bool canPoolChunks = false;
-    float speed = 5.0f;
+    [SerializeField]
+    float speed = 2.0f;
+    [SerializeField]
+    float acceleration = 20.0f;
+    [SerializeField]
+    float maxSpeed = 20.0f;
     Vector3 movementDelta = Vector3.zero;
     byte chunkTriggerOffset = 13;
+    byte chunkStartPosOffset = 8;
 
     // Events
     [SerializeField]
@@ -78,7 +84,7 @@ public class MapController : MonoBehaviour
     {
         // Hard offset second chunk at start, and chunk starting position
         chunkTransforms[1].transform.position = new Vector2(chunkWidth, 0.0f);
-        chunkStartingPosition = new Vector2(chunkWidth - 8, 0.0f);  //TODO - Change this magic number
+        chunkStartingPosition = new Vector2(chunkWidth - chunkStartPosOffset, 0.0f);
 
         // Subscribe To events
         for (int i = 0; i < activeChunkCount; i++)
@@ -90,6 +96,7 @@ public class MapController : MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateSpeed();
         MoveChunks();
     }
 
@@ -122,7 +129,7 @@ public class MapController : MonoBehaviour
             byte y = (byte)currentTarget.y;
 
             // Roll for gap chance
-            if (random.GetRandomInt(100) < gapChance - currentGapLength)
+            if (random.GetRandomInt(100) < gapChance)
             {
                 // Generate gap length based on ranges defined at the top of file, that can fit within the bounds of the chunk
                 byte gapLength = (byte)random.GetRandomInt(minGapSize, (maxGapSize < chunkWidth - x) ? maxGapSize : chunkWidth - x);
@@ -143,6 +150,7 @@ public class MapController : MonoBehaviour
                 {
                     y = (byte)random.GetRandomInt(y - 1, y + 2);
 
+                    // Adjust height for playfield bounds
                     if (y < minHeight)
                     {
                         y = minHeight;
@@ -157,11 +165,7 @@ public class MapController : MonoBehaviour
                 }
 
                 // Generate new platform data
-                byte maxLength = (byte)random.GetRandomInt(chunkWidth - x);
-                if (maxLength <= minPlatformLength)
-                {
-                    maxLength = (byte)(minPlatformLength + 1);
-                }
+                byte maxLength = (byte)(chunkWidth - x + 1);
                 currentPlatformLength = (byte)random.GetRandomInt(minPlatformLength, maxLength);
 
                 // Update tracking vars
@@ -194,9 +198,10 @@ public class MapController : MonoBehaviour
                 }
             }
 
+            // Set current target for adjusted X
             currentTarget.Set(x, y);
         }
-
+       
         // Create new chunk data and assign chunk data generated above
         mapChunkData = new ChunkData(tiles, colliders);
         chunkTransforms[chunkIndex].SetData(mapChunkData);
@@ -206,6 +211,14 @@ public class MapController : MonoBehaviour
     void UpdateChunkIndex()
     {
         chunkIndex = (byte)((chunkIndex + 1) % activeChunkCount);
+    }
+
+    void UpdateSpeed()
+    {
+        if(speed < maxSpeed)
+        {
+            speed += acceleration * Time.fixedDeltaTime;
+        }
     }
 
     // Event Subscriptions
