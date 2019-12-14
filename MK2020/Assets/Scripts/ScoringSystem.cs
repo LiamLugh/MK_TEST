@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,10 @@ public class ScoringSystem : MonoBehaviour
     uint currentScore = 0;
     [SerializeField]
     uint currentHighScore = 0;
+    [SerializeField]
+    uint goodCoinValue = 10;
+    [SerializeField]
+    uint badCoinValue = 1;
 
     [Header("UI")]
     [SerializeField]
@@ -20,6 +25,25 @@ public class ScoringSystem : MonoBehaviour
     void Awake()
     {
         // Get highscore data
+    }
+
+    internal void OnPoolPickUpEvent(PickUpController p, bool colourCheck, EventArgs e)
+    {
+        if(colourCheck)
+        {
+            currentScore += goodCoinValue;
+        }
+        else
+        {
+            currentScore += badCoinValue;
+        }
+
+        UpdateScoreText(currentScore);
+
+        if (currentScore > currentHighScore)
+        {
+            UpdateHighScoreText(currentScore);
+        }
     }
 
     void Start()

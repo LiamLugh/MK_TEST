@@ -11,13 +11,11 @@ public class FloorSensor : MonoBehaviour
 
     [Header("UI")]
     [SerializeField]
-    Image countdownImage;
+    Image countdownImage = null;
 
-    [Header("GameOver Stats")]
-    [SerializeField]
-    float currentHeat = 0.0f;
-    [SerializeField]
-    float deathCountdown = 3.0f;
+    [Header("GameOver Timer")]
+    //[SerializeField]
+    //float deathCountdown = 3.0f;
     [SerializeField]
     bool isCountingDown = false;
 
@@ -37,7 +35,7 @@ public class FloorSensor : MonoBehaviour
                 {
                     if(!isCountingDown)
                     {
-                        StartCoroutine(Countdown(deathCountdown));
+                        //StartCoroutine(Countdown(deathCountdown));
                     }
                 }
             }

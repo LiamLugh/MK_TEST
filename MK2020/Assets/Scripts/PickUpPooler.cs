@@ -5,14 +5,18 @@ using UnityEngine;
 
 public class PickUpPooler : Pooler<PickUpController>
 {
+    [SerializeField]
+    ScoringSystem scoring;
+
     protected override void CreateAndPoolObject()
     {
         PickUpController p = Instantiate(prefab);
         pool.Enqueue(p);
         p.poolThisPickUp += OnPoolPickUpEvent;
+        p.poolThisPickUp += scoring.OnPoolPickUpEvent;
     }
 
-    void OnPoolPickUpEvent(PickUpController p, EventArgs e)
+    void OnPoolPickUpEvent(PickUpController p, bool colourCheck, EventArgs e)
     {
         pool.Enqueue(p);
         p.Disable();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void PickUpPoolEventHandler(PickUpController p, EventArgs e);
+public delegate void PickUpPoolEventHandler(PickUpController p, bool colourCheck, EventArgs e);
 
 public enum PickUpType { WHITE_COIN, BLACK_COIN, NONE };
 
@@ -25,7 +25,8 @@ public class PickUpController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.GetComponent<Player>()) return;
-        poolThisPickUp?.Invoke(this, EventArgs.Empty);
+        bool colourCheck = (other.GetComponent<Player>().GetIsWhite() == isWhite);
+        poolThisPickUp?.Invoke(this, colourCheck, EventArgs.Empty);
     }
 
     public void Enable(Transform parentTransform, Vector2 position, bool isWhite)
