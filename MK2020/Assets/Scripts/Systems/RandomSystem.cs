@@ -7,21 +7,18 @@ public class RandomSystem : MonoBehaviour
 {
     System.Random r;
     [SerializeField]
+    bool useRandomSeed = false;
+    [SerializeField]
     string seed = "";
     [SerializeField]
     uint tickCount = 0;
     List<uint> tickLog;
 
-    public void Init(string seed = "")
+    public void Init()
     {
-        if(seed == "")
+        if(useRandomSeed)
         {
-            Debug.Log(Time.time.ToString());
-            this.seed = Time.time.ToString();
-        }
-        else
-        {
-            this.seed = seed;
+            seed = DateTime.Now.ToString();
         }
 
         r = new System.Random(seed.GetHashCode());
