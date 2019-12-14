@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
     [Header("Physics")]
     [SerializeField]
     Rigidbody2D rb = null;
-    [SerializeField]
-    FloorSensor floorSensor = null;
     [Header("Rendering")]
     [SerializeField]
     Renderer myRenderer = null;
@@ -17,9 +15,11 @@ public class Player : MonoBehaviour
     int childrenCount = 0;
     [SerializeField]
     Material[] mats = null;
-    bool isWhiteMode = true;
+    bool isWhite = true;
     float halfScreenWidth = 0.0f;
     [Header("Jump Stats")]
+    [SerializeField]
+    bool canJump = false;
     [SerializeField]
     float jumpPower = 0.0f;
     [SerializeField]
@@ -45,22 +45,22 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isWhiteMode)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isWhite)
         {
             SetWhite();
         }
-        else if (Input.GetKeyDown(KeyCode.RightControl) && isWhiteMode)
+        else if (Input.GetKeyDown(KeyCode.RightControl) && isWhite)
         {
             SetBlack();
         }
         else if (Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
-            if (t.position.x < halfScreenWidth && !isWhiteMode)
+            if (t.position.x < halfScreenWidth && !isWhite)
             {
                 SetWhite();
             }
-            else if (t.position.x > halfScreenWidth && isWhiteMode)
+            else if (t.position.x > halfScreenWidth && isWhite)
             {
                 SetBlack();
             }
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
     {
         if(!isPaused)
         {
-            if(floorSensor.GetCanJump())
+            if(canJump)
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > jumpPowerThreshold)
                 {
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
                     jumpVector.Set(0.0f, jumpPower);
                     rb.AddForce(jumpVector, ForceMode2D.Impulse);
                     jumpPower = 0.0f;
-                    floorSensor.SetCanJump(false);
+                    canJump = false;
                 }
             }
 
@@ -103,6 +103,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetJump(bool canJump)
+    {
+        this.canJump = canJump;
+    }
+
     void SetBlack()
     {
         myRenderer.material = mats[2];
@@ -110,7 +115,7 @@ public class Player : MonoBehaviour
         {
             childRenderers[i].material = mats[3];
         }
-        isWhiteMode = false;
+        isWhite = false;
     }
 
     void SetWhite()
@@ -120,7 +125,12 @@ public class Player : MonoBehaviour
         {
             childRenderers[i].material = mats[1];
         }
-        isWhiteMode = true;
+        isWhite = true;
+    }
+
+    public bool GetIsWhite()
+    {
+        return isWhite;
     }
 
     // Pause System
@@ -138,5 +148,11 @@ public class Player : MonoBehaviour
         isPaused = false;
         rb.velocity = previousVelocity;
         rb.gravityScale = previousGravityScale;
+    }
+
+    // Game Over
+    public void GameOver()
+    {
+        Debug.Log("GAMEOVERRRRR");
     }
 }

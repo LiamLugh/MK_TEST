@@ -219,8 +219,6 @@ public class MapController : MonoBehaviour
 
                         Vector2 pos = new Vector2(x + j, newY);
 
-                        Debug.Log("=======" + pos);
-
                         // Enable it with data above
                         p.Enable(chunkTransforms[chunkIndex].transform, pos, isWhite);
 

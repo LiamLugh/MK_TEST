@@ -32,6 +32,11 @@ public class ColliderController : MonoBehaviour
     {
         return type;
     }
+
+    public bool GetIsWhite()
+    {
+        return isWhite;
+    }
 }
 
 public enum ColliderType { FLOOR, PICKUP, NONE };
