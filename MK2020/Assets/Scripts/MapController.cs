@@ -12,6 +12,8 @@ public class MapController : MonoBehaviour
     [SerializeField]
     ColliderPooler colliderPool = null;
     [SerializeField]
+    PickUpPooler pickUpPool = null;
+    [SerializeField]
     byte chunkWidth = 0;
     [SerializeField]
     byte chunkHeight = 0;
