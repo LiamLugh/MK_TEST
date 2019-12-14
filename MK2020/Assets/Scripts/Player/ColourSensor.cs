@@ -9,12 +9,17 @@ public class ColourSensor : MonoBehaviour
     [SerializeField]
     Player player = null;
     [SerializeField]
-    AudioSystem audioSystem = null;
+    bool isPaused = false;
 
     [Header("UI")]
     [SerializeField]
-    Image countdownImage = null;
-
+    Slider countdownSlider = null;
+    [SerializeField]
+    Image barImage = null;
+    [SerializeField]
+    Color startColour = Color.white;
+    [SerializeField]
+    Color endColour = Color.red;
     [Header("GameOver Timer")]
     [SerializeField]
     float timeThreshold = 3.0f;
@@ -57,27 +62,43 @@ public class ColourSensor : MonoBehaviour
 
     public void StopCountDown()
     {
+        countdownSlider.gameObject.SetActive(false);
+        barImage.color = startColour;
         StopAllCoroutines();
         isCountingDown = false;
-        audioSystem.ResetWarningSFX();
-        countdownImage.fillAmount = 0.0f;
+        countdownSlider.value = 0.0f;
     }
 
     IEnumerator Countdown(float duration)
     {
+        countdownSlider.gameObject.SetActive(true);
         isCountingDown = true;
-        float normalizedTime = 0;       // Normalised for the sound system
+        float normalizedTime = 0;       // Normalised for the UI element
 
         while (normalizedTime <= 1f)
         {
-            countdownImage.fillAmount = normalizedTime;
-            normalizedTime += Time.deltaTime / duration;
-            audioSystem.UpdateWarningSFX(normalizedTime);
+            if(!isPaused)
+            {
+                countdownSlider.value = normalizedTime;
+                normalizedTime += Time.deltaTime / duration;
+                barImage.color = Color.Lerp(startColour, endColour, normalizedTime);
+            }
             yield return null;
         }
 
         // End game if time over
         player.GameOver();
+    }
+
+    // Pause System
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void Unpause()
+    {
+        isPaused = false;
     }
 
 }

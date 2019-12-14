@@ -1368,6 +1368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81be83cd135a0be47bffcc44e623ae78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useRandomSeed: 0
   seed: 
   tickCount: 0
 --- !u!1 &630178072

@@ -9,6 +9,8 @@ public class PauseSystem : MonoBehaviour
     [SerializeField]
     Player player = null;
     [SerializeField]
+    ColourSensor colourSensor = null;
+    [SerializeField]
     MapController mapSystem = null;
     [SerializeField]
     AudioSystem audioSystem = null;
@@ -42,6 +44,7 @@ public class PauseSystem : MonoBehaviour
         audioSystem.PlayPauseSFX();
         player.Pause();
         mapSystem.Pause();
+        colourSensor.Pause();
     }
 
     void UnpauseGame()
@@ -49,6 +52,7 @@ public class PauseSystem : MonoBehaviour
         audioSystem.PlayUnpauseSFX();
         player.Unpause();
         mapSystem.Unpause();
+        colourSensor.Unpause();
     }
 
     void GameOverPause()

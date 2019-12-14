@@ -80,23 +80,31 @@ public class Player : MonoBehaviour
             {
                 if((!Input.anyKey && Input.touchCount == 0) && jumpPower > jumpPowerThreshold)
                 {
+                    // CLear current velocity
                     rb.velocity = Vector2.zero;
+
+                    // If current jump power is less than minium jump power update it
                     if(jumpPower < minJumpPower)
                     {
                         jumpPower = minJumpPower;
                     }
+
+                    // JUMP
                     jumpVector.Set(0.0f, jumpPower);
                     rb.AddForce(jumpVector, ForceMode2D.Impulse);
+
+                    // Reset jump tracking
                     jumpPower = 0.0f;
                     canJump = false;
                     colourSensor.StopCountDown();
 
-                    // 
+                    // Update Audio
                     audioSystem.PlayJumpSFX();
-                    //audioSystem.ResetJumpChargeSFX();
+                    audioSystem.ResetWarningSFX();
                 }
             }
 
+            // Colour switching
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.touchCount > 0)
             {
                 jumpPower += powerMultiplier * Time.fixedDeltaTime;
@@ -106,11 +114,12 @@ public class Player : MonoBehaviour
                     jumpPower = maxPower;
                 }
 
-                //audioSystem.UpdateJumpChargeSFX(jumpPower / maxPower);
+                audioSystem.UpdateWarningSFX(jumpPower / maxPower);
             }
             else
             {
                 jumpPower = 0.0f;
+                audioSystem.ResetWarningSFX();
             }
         }
     }
