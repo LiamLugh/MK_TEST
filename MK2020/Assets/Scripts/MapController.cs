@@ -19,10 +19,8 @@ public class MapController : MonoBehaviour
     // Chunk Plotting
     byte leadSpace = 0;
     Vector2Int currentTarget = Vector2Int.zero;
-    byte rampHeightDelta = 3;
     byte minHeight = 1;
     byte maxHeight = 3;
-    byte heightOffset = 2;
 
     // Chunk spawn config
     bool isWhite = true;
@@ -31,10 +29,10 @@ public class MapController : MonoBehaviour
     // Map Data
     ChunkData mapChunkData;
     [SerializeField]
-    ChunkController[] chunkTransforms;
+    ChunkController[] chunkTransforms = null;
     byte chunkIndex = 0;
     byte activeChunkCount = 0;
-    byte heightChangeChance = 25;
+    byte heightChangeChance = 35;
     byte gapChance = 10;
     byte currentGapLength = 0;
     byte minGapSize = 2;
@@ -56,7 +54,7 @@ public class MapController : MonoBehaviour
 
     // Events
     [SerializeField]
-    ChunkTrigger[] chunkTriggers;
+    ChunkTrigger[] chunkTriggers = null;
 
     void Awake()
     {

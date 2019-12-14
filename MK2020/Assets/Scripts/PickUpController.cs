@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileController : MonoBehaviour
+public class PickUpController : MonoBehaviour
 {
     [SerializeField]
     Material[] mats = null;
@@ -17,7 +17,7 @@ public class TileController : MonoBehaviour
 
         transform.SetParent(parentTransform);
         gameObject.transform.localPosition = position;
-        
+
         if (isWhite)
         {
             myRenderer.material = mats[0];
