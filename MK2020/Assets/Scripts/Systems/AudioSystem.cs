@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioSystem : MonoBehaviour
 {
@@ -29,6 +30,31 @@ public class AudioSystem : MonoBehaviour
      *      8 - SWITCH
      */
     AudioClip[] sfx = null;
+
+    [Header("UI")]
+    [SerializeField]
+    Slider sfxSlider;
+    [SerializeField]
+    Slider musicSlider;
+
+    void Awake()
+    {
+        // UI classes use unity events, so delegates TODO --- SAVE THESE TO PLAYER PREFS
+        sfxSlider.onValueChanged.AddListener((float v) => SetSFXVolume(v));
+        musicSlider.onValueChanged.AddListener((float v) => SetMusicVolume(v));
+    }
+
+    void SetSFXVolume(float v)
+    {
+        sfxSource.volume = v;
+        deathSource.volume = v;
+        jumpChargeSource.volume = v;
+    }
+
+    void SetMusicVolume(float v)
+    {
+        musicSource.volume = v;
+    }
 
     public void PlayGoodCoinSFX()
     {
@@ -107,5 +133,17 @@ public class AudioSystem : MonoBehaviour
     public void ResetJumpChargeSFX()
     {
         jumpChargeSource.pitch = 0.0f;
+    }
+
+    public void MuteSFXToggle()
+    {
+        sfxSource.mute = !sfxSource.mute;
+        deathSource.mute = !deathSource.mute;
+        jumpChargeSource.mute = !jumpChargeSource.mute;
+    }
+
+    public void MuteMusicToggle()
+    {
+        musicSource.mute = !musicSource.mute;
     }
 }
