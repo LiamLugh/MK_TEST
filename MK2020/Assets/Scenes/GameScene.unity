@@ -217,7 +217,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.25, y: -0.5}
+  m_Offset: {x: 0, y: -0.5}
   serializedVersion: 2
   m_Radius: 0.25
 --- !u!1 &105509267
@@ -8355,6 +8355,7 @@ MonoBehaviour:
   scoreText: {fileID: 630178075}
   highScoreText: {fileID: 585296257}
   audioSystem: {fileID: 1991976725}
+  particlePooler: {fileID: 2042836612}
 --- !u!1 &1644337750
 GameObject:
   m_ObjectHideFlags: 0
@@ -9132,6 +9133,7 @@ Transform:
   - {fileID: 586019707}
   - {fileID: 284590717}
   - {fileID: 1320876680}
+  - {fileID: 2042836611}
   m_Father: {fileID: 1242598858}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9197,6 +9199,50 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4243681cc5b39f24485c8c38b6539e16, type: 3}
   - {fileID: 8300000, guid: 1582b15ff69920b44b2ee3fb4c8261a9, type: 3}
   - {fileID: 8300000, guid: 25aa0ce96a26113498ea7c8bf377630a, type: 3}
+--- !u!1 &2042836610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042836611}
+  - component: {fileID: 2042836612}
+  m_Layer: 0
+  m_Name: PickUpParticlePooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2042836611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042836610}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1987693810}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2042836612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042836610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b5c176223e5a546af825f21906b91e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1557496421003079496, guid: ee6766c2ca51dec4a8ee187996d1f80b, type: 3}
 --- !u!1 &2060338065
 GameObject:
   m_ObjectHideFlags: 0

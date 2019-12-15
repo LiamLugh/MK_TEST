@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 2130208645544406207}
   - component: {fileID: 2130208645544406206}
   - component: {fileID: 1557496421003079496}
+  - component: {fileID: -369688711241145033}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: SmallExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,8 +117,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.5
+      scalar: 0.75
+      minScalar: 0.25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -169,8 +170,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7.5
-      minScalar: 5
+      scalar: 3
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -747,7 +748,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.25
+      value: 0.15
       mode: 0
       spread: 0
       speed:
@@ -976,7 +977,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 50
+        scalar: 25
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4831,3 +4832,17 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.87729645, a: 0.92156863}
   - {r: 0.65035546, g: 0, b: 0.9811321, a: 0.7411765}
   p: {fileID: 2130208645544406207}
+--- !u!114 &-369688711241145033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130208645544406200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae63ac00b0a775c428c67db0bc112cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSystem: {fileID: 0}
+  myParticleController: {fileID: 1557496421003079496}

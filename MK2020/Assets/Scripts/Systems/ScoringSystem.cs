@@ -25,6 +25,8 @@ public class ScoringSystem : MonoBehaviour
     [Header("References")]
     [SerializeField]
     AudioSystem audioSystem = null;
+    [SerializeField]
+    PickUpParticlePooler particlePooler = null;
 
     void Awake()
     {
@@ -33,6 +35,11 @@ public class ScoringSystem : MonoBehaviour
 
     internal void OnPoolPickUpEvent(PickUpController p, bool colourCheck, EventArgs e)
     {
+        // Spawn particles
+        ParticleColourController particle = particlePooler.GetObjectFromPool();
+        particle.GetComponent<SpawnedParticleController>().StartTimer(p.transform.position, p.GetIsWhite());
+        
+        // Update score based on colour of pickup
         if(colourCheck)
         {
             currentScore += goodCoinValue;
