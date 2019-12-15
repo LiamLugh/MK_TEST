@@ -26,8 +26,7 @@ public class ColourSensor : MonoBehaviour
     float timeThreshold = 3.0f;
     [SerializeField]
     bool isCountingDown = false;
-    [SerializeField]
-    int population = 0;
+    byte population = 0;
 
     ColliderController currentCollider = null;
 

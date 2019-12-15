@@ -40,9 +40,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     AudioSystem audioSystem = null;
     [SerializeField]
+    LightSystem lightSystem = null;
+    [SerializeField]
     ColourSensor colourSensor = null;
     [SerializeField]
     PlayerParticleColourContoller pController = null;
+    [SerializeField]
+    GameObject mesh = null;
 
     // Pause System
     bool isPaused = false;
@@ -195,5 +199,8 @@ public class Player : MonoBehaviour
     {
         gameOverEventHandler?.Invoke(EventArgs.Empty);
         audioSystem.PlayGameOverSFX();
+        pController.Explode(isWhite);
+        mesh.SetActive(false);
+        lightSystem.LightToPosition(transform.position, isWhite);
     }
 }
