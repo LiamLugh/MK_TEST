@@ -20,11 +20,14 @@ public class ColourSensor : MonoBehaviour
     Color startColour = Color.white;
     [SerializeField]
     Color endColour = Color.red;
+
     [Header("GameOver Timer")]
     [SerializeField]
     float timeThreshold = 3.0f;
     [SerializeField]
     bool isCountingDown = false;
+    [SerializeField]
+    int population = 0;
 
     ColliderController currentCollider = null;
 
@@ -37,7 +40,21 @@ public class ColourSensor : MonoBehaviour
             if (newCollider.GetColliderType() == ColliderType.FLOOR)
             {
                 currentCollider = newCollider;
+                population++;
                 CheckColour();
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        ColliderController newCollider = other.GetComponent<ColliderController>();
+
+        if (newCollider != null)
+        {
+            if (newCollider.GetColliderType() == ColliderType.FLOOR)
+            {
+                population--;
             }
         }
     }
@@ -46,7 +63,7 @@ public class ColourSensor : MonoBehaviour
     {
         if (currentCollider != null)
         {
-            if (currentCollider.GetIsWhite() != player.GetIsWhite())
+            if (currentCollider.GetIsWhite() != player.GetIsWhite() && population > 0)
             {
                 if (!isCountingDown)
                 {

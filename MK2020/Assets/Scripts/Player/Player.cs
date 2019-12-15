@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     AudioSystem audioSystem = null;
     [SerializeField]
     ColourSensor colourSensor = null;
+    [SerializeField]
+    PlayerParticleColourContoller pController = null;
 
     // Pause System
     bool isPaused = false;
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
     {
         childrenCount = childRenderers.Length;
         halfScreenWidth = Screen.width / 2;
+        pController.SetColour(isWhite);
     }
 
     void Update()
@@ -109,7 +112,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // Colour switching
+            // Clearing jump power
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.touchCount > 0)
             {
                 jumpPower += powerMultiplier * Time.fixedDeltaTime;
@@ -147,6 +150,8 @@ public class Player : MonoBehaviour
             childRenderers[i].material = mats[3];
         }
         isWhite = false;
+        pController.SetColour(isWhite);
+        audioSystem.PlaySwitchSFX();
         colourSensor.CheckColour();
     }
 
@@ -158,6 +163,8 @@ public class Player : MonoBehaviour
             childRenderers[i].material = mats[1];
         }
         isWhite = true;
+        pController.SetColour(isWhite);
+        audioSystem.PlaySwitchSFX();
         colourSensor.CheckColour();
     }
 

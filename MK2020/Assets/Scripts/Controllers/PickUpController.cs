@@ -11,16 +11,23 @@ public class PickUpController : MonoBehaviour
 {
     public event PickUpPoolEventHandler poolThisPickUp;
 
+    [Header("Rendering")]
     [SerializeField]
     Material[] mats = null;
     [SerializeField]
     Renderer myRenderer = null;
+
+    [Header("State")]
     [SerializeField]
     bool isWhite = true;
     [SerializeField]
     PickUpType type = PickUpType.NONE;
     [SerializeField]
     bool toScore = false;
+
+    [Header("References")]
+    [SerializeField]
+    ParticleColourController pController = null;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -47,6 +54,8 @@ public class PickUpController : MonoBehaviour
 
         this.isWhite = isWhite;
         this.type = (isWhite) ? PickUpType.WHITE_COIN : PickUpType.BLACK_COIN;
+
+        pController.SetColour(this.isWhite);
     }
 
     public void Disable()

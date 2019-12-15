@@ -26,6 +26,7 @@ public class AudioSystem : MonoBehaviour
      *      6 - GAME OVER
      *      7 - JUMP
      *      8 - EXPLODE
+     *      8 - SWITCH
      */
     AudioClip[] sfx = null;
 
@@ -76,6 +77,16 @@ public class AudioSystem : MonoBehaviour
     public void PlayJumpSFX()
     {
         sfxSource.PlayOneShot(sfx[7]);
+    }
+
+    public void PlayExplodeSFX()
+    {
+        sfxSource.PlayOneShot(sfx[8]);
+    }
+
+    public void PlaySwitchSFX()
+    {
+        sfxSource.PlayOneShot(sfx[9]);
     }
 
     public void UpdateWarningSFX(float value)
