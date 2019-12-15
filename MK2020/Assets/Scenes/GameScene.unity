@@ -2255,6 +2255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697231765}
   - component: {fileID: 697231766}
+  - component: {fileID: 697231767}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -2336,6 +2337,21 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &697231767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697231764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d523f2e9b6802498cff1944edd08cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  maxSpeed: 0
+  mapController: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3947,7 +3963,7 @@ GameObject:
   - component: {fileID: 1242598857}
   m_Layer: 0
   m_Name: MapController
-  m_TagString: Untagged
+  m_TagString: MapController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9702,6 +9718,7 @@ MonoBehaviour:
   scoreText: {fileID: 630178075}
   highScoreText: {fileID: 585296257}
   audioSystem: {fileID: 1991976725}
+  dataSystem: {fileID: 0}
   particlePooler: {fileID: 2042836612}
 --- !u!1 &1644337750
 GameObject:

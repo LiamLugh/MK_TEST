@@ -1,26 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuSystem : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
-    ParticleColourController[] particleControllers = null;
+    DataSystem dataSystem = null;
     [SerializeField]
     ToggleSeedUI uiData = null;
+
+    void Awake()
+    {
+        dataSystem = GameObject.FindGameObjectWithTag("Data").GetComponent<DataSystem>();
+        dataSystem.Reset();
+    }
 
     public void Play()
     {
         // Assign seed to singleton if needed
-        if(uiData.GetUseSeed())
+        if(uiData.GetUseRandomSeed())
         {
-            // grab the seed
+            dataSystem.SetSeed(uiData.GetSeed());
         }
-        else
-        {
-            // go with empty
-        }
+
+        SceneManager.LoadScene(1);
     }
 
     public void Quit()

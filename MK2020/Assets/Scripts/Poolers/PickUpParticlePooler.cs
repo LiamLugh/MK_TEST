@@ -12,7 +12,7 @@ public class PickUpParticlePooler : Pooler<ParticleColourController>
     protected override void CreateAndPoolObject()
     {
         // Add new particle
-        ParticleColourController p = Instantiate(prefab);
+        ParticleColourController p = Instantiate(prefab, transform);
         pool.Enqueue(p);
 
         // Set up particle and subscribe it's pool event

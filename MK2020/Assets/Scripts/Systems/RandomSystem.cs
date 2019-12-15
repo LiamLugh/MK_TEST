@@ -5,6 +5,7 @@ using System;
 
 public class RandomSystem : MonoBehaviour
 {
+    [Header("Stats")]
     System.Random r;
     [SerializeField]
     bool useRandomSeed = false;
@@ -14,11 +15,26 @@ public class RandomSystem : MonoBehaviour
     uint tickCount = 0;
     List<uint> tickLog;
 
-    public void Init()
+    [Header("References")]
+    DataSystem dataSystem = null;
+
+    void Awake()
+    {
+        dataSystem = GameObject.FindGameObjectWithTag("Data").GetComponent<DataSystem>();
+        useRandomSeed = dataSystem.GetUseRandom();
+        Init();
+    }
+
+    void Init()
     {
         if(useRandomSeed)
         {
             seed = DateTime.Now.ToString();
+            dataSystem.SetSeed(seed);
+        }
+        else
+        {
+            seed = dataSystem.GetSeed();
         }
 
         r = new System.Random(seed.GetHashCode());

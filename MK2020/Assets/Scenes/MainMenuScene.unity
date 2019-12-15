@@ -442,7 +442,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 297167457}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 414346566}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, Unity.ugui, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &297167457
@@ -511,7 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0ccfafa54d7f8419ceff1749d6e315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleControllers: []
+  dataSystem: {fileID: 492274160}
   uiData: {fileID: 1619800259}
 --- !u!4 &414346567
 Transform:
@@ -662,6 +673,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba998f817a959f6428ab89de011efd38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 
+  useRandom: 1
+  highScore: 0
 --- !u!1 &773751658
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +901,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 798056678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 414346566}
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, Unity.ugui, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &798056678

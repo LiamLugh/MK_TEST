@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2130208645544406206}
   - component: {fileID: 1557496421003079496}
   - component: {fileID: -369688711241145033}
+  - component: {fileID: -5606078693975397043}
   m_Layer: 0
   m_Name: SmallExplosion
   m_TagString: Untagged
@@ -4846,3 +4847,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightSystem: {fileID: 0}
   myParticleController: {fileID: 1557496421003079496}
+--- !u!114 &-5606078693975397043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130208645544406200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d523f2e9b6802498cff1944edd08cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  maxSpeed: 0
+  mapController: {fileID: 0}

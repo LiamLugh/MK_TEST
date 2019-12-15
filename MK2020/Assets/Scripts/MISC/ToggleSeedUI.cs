@@ -13,7 +13,7 @@ public class ToggleSeedUI : MonoBehaviour
     InputField seedInput = null;
     [SerializeField]
     string currentSeed = "";
-    bool useSeed = true;
+    bool useRandom = true;
 
     void Start()
     {
@@ -27,11 +27,10 @@ public class ToggleSeedUI : MonoBehaviour
 
     public void UseSeedToggle()
     {
-        if(useSeed)
+        if(useRandom)
         {
             checkImage.gameObject.SetActive(false);
             seedInput.gameObject.SetActive(true);
-
         }
         else
         {
@@ -40,12 +39,12 @@ public class ToggleSeedUI : MonoBehaviour
             currentSeed = "";
         }
 
-        useSeed = !useSeed;
+        useRandom = !useRandom;
     }
 
-    public bool GetUseSeed()
+    public bool GetUseRandomSeed()
     {
-        return useSeed;
+        return !useRandom;
     }
 
     public string GetSeed()

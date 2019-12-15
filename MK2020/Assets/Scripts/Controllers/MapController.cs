@@ -69,9 +69,6 @@ public class MapController : MonoBehaviour
 
     void Awake()
     {
-        // Start the random system
-        random.Init();
-
         // Grab the width and height of devices screen in pixels
         float heightf = Camera.main.orthographicSize * 2.0f;
         float widthf = heightf * Camera.main.aspect;
@@ -300,8 +297,8 @@ public class MapController : MonoBehaviour
     {
         if(canPoolChunks)
         {
-            // Reposition oldest chunk
-            chunkTransforms[chunkIndex].transform.position = chunkStartingPosition;
+            // Reposition oldest chunk - the time it took to build the chunk to get rid of the occasional small gap
+            chunkTransforms[chunkIndex].transform.position = chunkStartingPosition -= new Vector2(Time.fixedDeltaTime, 0.0f);
 
             // Pool it's tiles
             TileController[] tControllers = chunkTransforms[chunkIndex].GetComponentsInChildren<TileController>();
@@ -337,6 +334,22 @@ public class MapController : MonoBehaviour
         {
             canPoolChunks = true;
         }
+    }
+
+    // To give the light and pick up particles the appropriate movement illusion
+    public float GetChunkSpeed()
+    {
+        return speed;
+    }
+
+    public float GetChunkMaxSpeed()
+    {
+        return maxSpeed;
+    }
+
+    public bool GetIsPaused()
+    {
+        return isPaused;
     }
 }
 

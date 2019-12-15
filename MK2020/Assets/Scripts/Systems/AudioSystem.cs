@@ -33,9 +33,9 @@ public class AudioSystem : MonoBehaviour
 
     [Header("UI")]
     [SerializeField]
-    Slider sfxSlider;
+    Slider sfxSlider = null;
     [SerializeField]
-    Slider musicSlider;
+    Slider musicSlider = null;
 
     void Awake()
     {

@@ -26,11 +26,14 @@ public class ScoringSystem : MonoBehaviour
     [SerializeField]
     AudioSystem audioSystem = null;
     [SerializeField]
+    DataSystem dataSystem = null;
+    [SerializeField]
     PickUpParticlePooler particlePooler = null;
 
     void Awake()
     {
-        // Load highscore data
+        dataSystem = GameObject.FindGameObjectWithTag("Data").GetComponent<DataSystem>();
+        currentHighScore = dataSystem.GetHighScore();
     }
 
     internal void OnPoolPickUpEvent(PickUpController p, bool colourCheck, EventArgs e)
@@ -55,7 +58,9 @@ public class ScoringSystem : MonoBehaviour
 
         if (currentScore > currentHighScore)
         {
-            UpdateHighScoreText(currentScore);
+            currentHighScore = currentScore;
+            dataSystem.SetHighScore(currentHighScore);
+            UpdateHighScoreText(currentHighScore);
         }
     }
 
@@ -72,12 +77,14 @@ public class ScoringSystem : MonoBehaviour
 
     void UpdateHighScoreText(uint score)
     {
-        if(score < 1)
+        if (score < 1)
         {
             highScoreText.gameObject.SetActive(false);
             return;
         }
 
-        highScoreText.text = score.ToString();
+        highScoreText.gameObject.SetActive(true);
+
+        highScoreText.text = "HI - " + score.ToString();
     }
 }

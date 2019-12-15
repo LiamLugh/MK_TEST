@@ -4,15 +4,48 @@ using UnityEngine;
 
 public class DataSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Data")]
+    [SerializeField]
+    string seed = "";
+    [SerializeField]
+    bool useRandom = true;
+    [SerializeField]
+    uint highScore = 0;
+
+    void OnAwake()
     {
-        
+        // Load highscoreData
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetSeed(string seed)
     {
-        
+        this.seed = seed;
+        useRandom = false;
+    }
+
+    public void SetHighScore(uint highScore)
+    {
+        this.highScore = highScore;
+    }
+
+    public string GetSeed()
+    {
+        return seed;
+    }
+
+    public bool GetUseRandom()
+    {
+        return useRandom;
+    }
+
+    public uint GetHighScore()
+    {
+        return highScore;
+    }
+
+    public  void Reset()
+    {
+        seed = "";
+        useRandom = true;
     }
 }
