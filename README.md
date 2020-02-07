@@ -1,4 +1,4 @@
-# LIAM HOUSTON - Mighty Kingdom - Graduate Programming Test
+# LIAM HOUSTON - Mobile Infinite Runner
 
 *An Ikargua inspired infinite runner for Android! Made by Liam Houston*
 
